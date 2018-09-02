@@ -7,5 +7,6 @@ public class Teste {
 		
 		ArvoreBinaria ab = new ArvoreBinaria(55);
 		System.out.println("Testando tudo que posso fazer");
+		System.out.println("Ola Jeff");
 	}
 }
