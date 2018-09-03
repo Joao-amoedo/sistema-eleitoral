@@ -11,7 +11,7 @@ public class ArvoreAVL extends ArvoreBalanceada{
 
 	@Override
 	protected Node RSE() {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
