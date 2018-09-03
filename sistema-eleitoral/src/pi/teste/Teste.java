@@ -14,6 +14,7 @@ public class Teste {
 		ab.add(55);
 		ab.add(150);
 		ab.remove(100);
+		System.out.println("Ola lucas");
 		
 		ab.emOrdem();
 
