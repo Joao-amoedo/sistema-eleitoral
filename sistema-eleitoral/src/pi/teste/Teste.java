@@ -13,7 +13,7 @@ public class Teste {
 		ab.add(60);
 		ab.add(55);
 		ab.add(150);
-		
+		System.out.println("Ola jeff");
 		ab.remove(100);
 		
 		ab.emOrdem();
