@@ -10,25 +10,25 @@ public class ArvoreAVL extends ArvoreBalanceada{
 	}
 
 	@Override
-	protected Node RSE() {
+	protected Node RSE(Node raiz) {
 
 		return null;
 	}
 
 	@Override
-	protected Node RSD() {
+	protected Node RSD(Node raiz) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected Node RDE() {
+	protected Node RDE(Node raiz) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected Node RDD() {
+	protected Node RDD(Node raiz) {
 		// TODO Auto-generated method stub
 		return null;
 	}

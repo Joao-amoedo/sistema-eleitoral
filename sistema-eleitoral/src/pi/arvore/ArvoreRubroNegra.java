@@ -13,22 +13,22 @@ public class ArvoreRubroNegra extends ArvoreBalanceada {
 	}
 	
 	@Override
-	protected Node RSE() {
+	protected Node RSE(Node raiz) {
 		return null;
 	}
 
 	@Override
-	protected Node RSD() {
+	protected Node RSD(Node raiz) {
 		return null;
 	}
 
 	@Override
-	protected Node RDE() {
+	protected Node RDE(Node raiz) {
 		return null;
 	}
 
 	@Override
-	protected Node RDD() {
+	protected Node RDD(Node raiz) {
 		return null;
 	}
 

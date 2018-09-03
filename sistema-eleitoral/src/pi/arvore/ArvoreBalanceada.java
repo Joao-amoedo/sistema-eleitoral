@@ -8,12 +8,12 @@ public abstract class ArvoreBalanceada extends ArvoreBinariaDeBusca{
 		super(elemento);
 	}
 
-	protected abstract Node RSE();
+	protected abstract Node RSE(Node raiz);
 
-	protected abstract Node RSD();
+	protected abstract Node RSD(Node raiz);
 	
-	protected abstract Node RDE();
+	protected abstract Node RDE(Node raiz);
 	
-	protected abstract Node RDD();
+	protected abstract Node RDD(Node raiz);
 	
 }
