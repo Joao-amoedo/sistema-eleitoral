@@ -5,32 +5,28 @@ import pi.node.Node;
 
 public class ArvoreAVL extends ArvoreBalanceada{
 
+
+
+
+	
 	public ArvoreAVL(int elemento) {
 		super(elemento);
-	}
 
-	@Override
-	protected Node RSE() {
-		// TODO Auto-generated method stub
-		return null;
 	}
+	
+	
+	
+	
+	
+	public boolean add(Integer elemento) {
+		System.out.println("fui invocado pq sou lindo");
+		return super.add(elemento);
+	}
+	
+	
+	
 
-	@Override
-	protected Node RSD() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected Node RDE() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected Node RDD() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	
 
 }

@@ -3,6 +3,8 @@
 2,1234,Zé Urubu,18
 2,1548,Urso Polar,22
 EXEMPLO ARQUIVO 2
+
+
 1;regiao;cpf;numero_ sequencial_de_voto;codigo_do_ municipio;codigo_candidato_ federal;codigo_do_partido_ federal;codigo_do_candidato_ regional;codigo_do_partidido_ regional
 2;A;679.357.482-50;22562; 5300108;25;2;1234;18
 2;A;437.957.943-31;22563; 5300108;14;10;1234;18

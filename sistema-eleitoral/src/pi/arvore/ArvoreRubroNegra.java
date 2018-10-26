@@ -12,24 +12,17 @@ public class ArvoreRubroNegra extends ArvoreBalanceada {
 		super(elemento);
 	}
 	
-	@Override
-	protected Node RSE() {
-		return null;
+	
+	protected boolean add(Node raiz, Node novo) {
+		if(raiz.getElemento() == novo.getElemento())
+			return false;
+		else
+			if(raiz.getElemento() < novo.getElemento()) {
+				add(raiz.getDireita(),novo);
+			}
+		return false;
 	}
-
-	@Override
-	protected Node RSD() {
-		return null;
-	}
-
-	@Override
-	protected Node RDE() {
-		return null;
-	}
-
-	@Override
-	protected Node RDD() {
-		return null;
-	}
-
+	
+	
+	
 }
