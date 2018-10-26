@@ -29,7 +29,7 @@ public class ArvoreBinaria implements Arvore {
 	 * @param novo
 	 * @return adiciona
 	 */
-	private boolean add(Node raiz, Node novo) {
+	protected boolean add(Node raiz, Node novo) {
 		Node aux = raiz;
 		if (aux.getElemento() < novo.getElemento())
 			return addDireita(aux, novo);
@@ -46,7 +46,7 @@ public class ArvoreBinaria implements Arvore {
 	 * @param novo
 	 * @return adiciona
 	 */
-	private boolean addDireita(Node aux, Node novo) {
+	protected boolean addDireita(Node aux, Node novo) {
 		if (aux.getElemento() == novo.getElemento())
 			return false;
 		else if (aux.getDireita() != null)
@@ -86,7 +86,7 @@ public class ArvoreBinaria implements Arvore {
 		return false;
 	}
 
-	private boolean remove(Node raiz, Integer elemento) {
+	protected boolean remove(Node raiz, Integer elemento) {
 		if (raiz.getElemento() < elemento) {
 			Node direita = raiz.getDireita();
 			if (direita == null)

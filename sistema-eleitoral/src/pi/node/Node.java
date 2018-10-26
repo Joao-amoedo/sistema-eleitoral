@@ -12,6 +12,8 @@ public class Node {
 
 	private Node esquerda;
 
+	private Node pai = null;
+	
 	private Cor cor;
 
 	private Integer elemento;
@@ -88,7 +90,7 @@ public class Node {
 		} else if (qtd == -1) {
 			fat = esquerda.getAltura();
 		} else {
-			fat = esquerda.getAltura() - direita.getAltura();
+			fat = direita.getAltura() - esquerda.getAltura();
 		}
 	}
 
@@ -98,11 +100,12 @@ public class Node {
 
 	public void setAltura() {
 		int qtd = this.getQuantidadeDeFilhos();
+		
 		if (qtd == 0)
 			altura = 1;
-		if (qtd == 1)
+		else if (qtd == 1)
 			altura = direita.getAltura() + 1;
-		if (qtd == -1)
+		else if (qtd == -1)
 			altura = esquerda.getAltura() + 1;
 		else {
 			if (direita.getAltura() > esquerda.getAltura())

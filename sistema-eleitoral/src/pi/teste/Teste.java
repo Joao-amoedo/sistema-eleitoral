@@ -1,25 +1,36 @@
 package pi.teste;
 
+import java.util.Random;
+
+import pi.arvore.ArvoreAVL;
 import pi.arvore.ArvoreBinaria;
+import pi.arvore.ArvoreRubroNegra;
 import pi.node.Node;
 
 public class Teste {
 	public static void main(String[] args) {
 		
 		ArvoreBinaria ab = new ArvoreBinaria(100);
-
-		ab.add(50);
-		ab.add(40);
-		ab.add(60);
-		ab.add(55);
-		ab.add(150);
-		ab.remove(100);
-		System.out.println("Ola lucas");
+		Math.random();
 		
-		ab.emOrdem();
-
-
+		Random rad = new Random();
+		int x = 0;
+		
+		int contador = 0;
+		
+		while(x < 10000) {
+			if(ab.add(rad.nextInt(100000))) {
+				x++;
+			}else {
+				contador++;
+			}
+		}
+		System.out.println(contador);
 		
 		
+
 	}
+	
+	
 }
+
