@@ -1,28 +1,34 @@
 package pi.model;
 public class Candidato implements Elemento{
 
+	
 	private String nome;
 	private Partido partido;
 	private long qtdVotos;
 	private short codigoCandidato;
-	private static short codigoCandidatos;
+	private static short codigoCandidatosRegionais = 1000;
+	private static short codigoCandidatosFederais = 0;
 	private TipoCandidato tipoCandidato;
 	
 	public Candidato(String nome, Partido partido, TipoCandidato tipoCandidato){
 		this.nome = nome;
 		this.partido = partido;
 		this.tipoCandidato = tipoCandidato;
-		codigoCandidatos++;
-		if(tipoCandidato == TipoCandidato.REGIONAL)
-			this.codigoCandidato = (short) (codigoCandidatos + 1000);
-		else
-			this.codigoCandidato = codigoCandidatos;
+		if(tipoCandidato == TipoCandidato.REGIONAL) {
+			
+			codigoCandidatosRegionais++;
+			codigoCandidato = codigoCandidatosRegionais;
+		}
+		else {
+			codigoCandidatosFederais++;
+			this.codigoCandidato = codigoCandidatosFederais;
+		}
 	}
 	public Candidato(String nome, Partido partido, TipoCandidato tipoCandidato,short codigoCandidato){
 		this.nome = nome;
 		this.partido = partido;
 		this.tipoCandidato = tipoCandidato;
-		codigoCandidatos++;
+		codigoCandidatosRegionais++;
 		this.codigoCandidato = codigoCandidato;
 	}
 

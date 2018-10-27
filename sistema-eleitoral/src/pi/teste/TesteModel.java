@@ -22,15 +22,17 @@ public class TesteModel {
 				Partido.NOVO, TipoCandidato.FEDERAL);
 		Candidato caReg = new Candidato("Adamastor Pequeno",
 				Partido.PSOL, TipoCandidato.REGIONAL);
-		Eleitor el1 = new Eleitor( UF.PA, 704851661, 66, caFed, caReg);
+		Eleitor el1 = new Eleitor( UF.PA, 051, 66, caFed, caReg);
 		
-		ArvoreBinaria<Eleitor> ab = new ArvoreBinaria<Eleitor>();
-		ArvoreBinaria<Candidato> ab2 = new ArvoreBinaria<Candidato>();
-
-		ArvoreBinariaDeBusca<Candidato> lerArquivo = DAOCandidato.lerArquivo();
-		
-		DAOEleitor.lerArquivo(lerArquivo);
-		
+		System.out.println(el1);
+//		
+//		ArvoreBinaria<Eleitor> ab = new ArvoreBinaria<Eleitor>();
+//		ArvoreBinaria<Candidato> ab2 = new ArvoreBinaria<Candidato>();
+//
+//		ArvoreBinariaDeBusca<Candidato> lerArquivo = DAOCandidato.lerArquivo();
+//		
+//		DAOEleitor.lerArquivo(lerArquivo);
+//		
 		
 		
 //		ArvoreBinariaDeBusca<Candidato> abbCand = DAOCandidato.lerArquivo();

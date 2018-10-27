@@ -1,5 +1,8 @@
 package pi.arvore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pi.DAO.DAOCandidato;
 import pi.DAO.DAOEleitor;
 import pi.model.Candidato;
@@ -8,14 +11,27 @@ import pi.model.Elemento;
 import pi.node.Cor;
 import pi.node.Node;
 
-public class ArvoreBinaria<T extends Elemento> implements Arvore {
+public class ArvoreBinaria <T extends Elemento> implements Arvore {
 
 	protected Node<T> raiz;
 
+	/**
+	 * True para caso vá gravar no arquivo
+	 * False para caso não vá gravar no arquivo
+	 * @param elemento
+	 * @param grava
+	 */
+	public ArvoreBinaria(T elemento,boolean grava) {
+		raiz = new Node<T>(elemento, Cor.PRETO);
+		if(grava)
+			this.gravaArquivo(raiz);
+	}		
+	
 	public ArvoreBinaria(T elemento) {
 		raiz = new Node<T>(elemento, Cor.PRETO);
-//		this.gravaArquivo(raiz);
 	}	
+	
+	
 	public ArvoreBinaria() {
 		this.raiz = null;
 	}
@@ -39,7 +55,7 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 		T conteudo = novo.getConteudo();
 		if (conteudo instanceof Eleitor) {
 			try {
-				DAOEleitor.gravarArquivo(conteudo.toString());
+				DAOEleitor.gravarArquivoUnico(conteudo.toString());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -305,5 +321,26 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 		System.out.println(raiz);
 
 	}
+	
+	public List<T> toList(){
+		List<T> lista = new ArrayList<T>();
+		return toList(lista,this.raiz);
+	}	
+	
+	private List<T> toList(List<T> lista,Node<T> raiz){
+		if(raiz.getEsquerda() != null)
+			toList(lista,raiz.getEsquerda());
+		
+		
+		lista.add(raiz.getConteudo());
+		
+		
+		if(raiz.getDireita() != null)
+			toList(lista,raiz.getDireita());
+		return lista;
+	}
+	
+	
+	
 
 }
