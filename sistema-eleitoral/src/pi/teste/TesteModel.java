@@ -24,10 +24,23 @@ public class TesteModel {
 				Partido.PSOL, TipoCandidato.REGIONAL);
 		Eleitor el1 = new Eleitor( UF.PA, 051, 66, caFed, caReg);
 		
-		System.out.println(el1);
+//		System.out.println(el1);
 //		
-//		ArvoreBinaria<Eleitor> ab = new ArvoreBinaria<Eleitor>();
-//		ArvoreBinaria<Candidato> ab2 = new ArvoreBinaria<Candidato>();
+		long inicio = System.currentTimeMillis();
+
+		ArvoreBinariaDeBusca<Candidato> abCand = DAOCandidato.lerArquivo();
+		
+		ArvoreBinaria<Eleitor> ab2 = DAOEleitor.lerArquivo(abCand);
+		DAOEleitor.geraEleitor(ab2, abCand.toList(), 1);
+		
+		long fim = System.currentTimeMillis();
+		long tempoTotal = fim - inicio;
+		System.out.println(String.format("Tempo que demorou: %d",tempoTotal));
+		System.out.println(ab2.getRaiz().getConteudo().getCandidatoRegional().getQtdVotos());
+		
+//		ab2.emOrdem();
+		
+//		ab2.emOrdem();
 //
 //		ArvoreBinariaDeBusca<Candidato> lerArquivo = DAOCandidato.lerArquivo();
 //		

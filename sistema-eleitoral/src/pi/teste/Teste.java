@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import pi.DAO.DAOCandidato;
 import pi.DAO.DAOEleitor;
 import pi.arvore.ArvoreAVL;
 import pi.arvore.ArvoreBinaria;
@@ -21,33 +22,38 @@ public class Teste {
 	public static void main(String[] args) {
 		
 		
-
-		Candidato ca1 = new Candidato("Carlitos", Partido.NOVO , TipoCandidato.FEDERAL);
-		Candidato ca2 = new Candidato("Adamastor pequeno", Partido.PMDB, TipoCandidato.REGIONAL);
-		Candidato ca3 = new Candidato("Lula", Partido.PT , TipoCandidato.FEDERAL);
-		Candidato ca4 = new Candidato("Candidato Aleatorio", Partido.PMDB, TipoCandidato.REGIONAL);
+//
+//		Candidato ca1 = new Candidato("Carlitos", Partido.NOVO , TipoCandidato.FEDERAL);
+//		Candidato ca2 = new Candidato("Adamastor pequeno", Partido.PMDB, TipoCandidato.REGIONAL);
+//		Candidato ca3 = new Candidato("Lula Livre", Partido.PT , TipoCandidato.FEDERAL);
+//		Candidato ca4 = new Candidato("Candidato Aleatorio", Partido.PMDB, TipoCandidato.REGIONAL);
 		
 		
 		
-		ArvoreBinariaDeBusca<Eleitor> abEleitor = new ArvoreBinariaDeBusca<Eleitor>();
 		
+//		ArvoreBinaria<Eleitor> abEleitor = new ArvoreBinaria<Eleitor>();
+		long inicio = System.currentTimeMillis();
 		
-		ArvoreBinaria<Candidato> abCandidato = new ArvoreBinaria<Candidato>(ca1);
+		ArvoreBinariaDeBusca<Candidato> abCand = DAOCandidato.lerArquivo();
+//		ArvoreBinaria<Eleitor> abEleitor = DAOEleitor.lerArquivo(abCand);
 		
-		abCandidato.add(ca2);
-		abCandidato.add(ca3);
-		abCandidato.add(ca4);
+//		abEleitor.emOrdem();
+//		abEleitor.emOrdem();
 		
-		List<Candidato> list = abCandidato.toList();
-	
-		
-		
-		 long inicio = System.currentTimeMillis();
-		DAOEleitor.geraEleitor(abEleitor, abCandidato.toList(), 100000);
+//		
+//		abCandidato.add(ca2,true);
+//		abCandidato.add(ca3,true);
+//		abCandidato.add(ca4,true);
+//		
+//		List<Candidato> list = abCandidato.toList();
+//	
+//		
+//		
+//		DAOEleitor.geraEleitor(abEleitor, abCand.toList(), 100);
 		long fim = System.currentTimeMillis();
 		long tempoTotal = fim - inicio;
 		System.out.println(String.format("Tempo que demorou: %d",tempoTotal));
-		
+//		
 		//abEleitor.emOrdem();
 		
 //		
