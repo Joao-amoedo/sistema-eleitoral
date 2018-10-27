@@ -17,6 +17,8 @@ public class Eleitor implements Elemento{
 		this.codigoMunicipio = codigoMunicipio;
 		this.candidatoFederal = candidatoFederal;
 		this.candidatoRegional = candidatoRegional;
+		this.candidatoFederal.acressentaVoto();
+		this.candidatoRegional.acressentaVoto();
 		this.sequencialEleitores++;
 		this.sequencial = sequencialEleitores;
 	}
@@ -28,6 +30,8 @@ public class Eleitor implements Elemento{
 		this.codigoMunicipio = codigoMunicipio;
 		this.candidatoFederal = candidatoFederal;
 		this.candidatoRegional = candidatoRegional;
+		this.candidatoFederal.acressentaVoto();
+		this.candidatoRegional.acressentaVoto();
 		this.sequencialEleitores++;
 		this.sequencial = sequencial;
 	}
@@ -58,6 +62,14 @@ public class Eleitor implements Elemento{
 
 	public static long getSequencialEleitores() {
 		return sequencialEleitores;
+	}
+
+	public Candidato getCandidatoFederal() {
+		return candidatoFederal;
+	}
+
+	public Candidato getCandidatoRegional() {
+		return candidatoRegional;
 	}
 
 	@Override

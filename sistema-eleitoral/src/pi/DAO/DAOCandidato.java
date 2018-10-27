@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import pi.arvore.ArvoreBinaria;
 import pi.arvore.ArvoreBinariaDeBusca;
 import pi.model.Candidato;
 import pi.model.Eleitor;
@@ -28,7 +29,7 @@ public class DAOCandidato {
 		}
 	}
 	
-	public static ArvoreBinariaDeBusca<Candidato> lerArquivo() throws FileNotFoundException {
+	public static ArvoreBinariaDeBusca<Candidato> lerArquivo() {
 		ArvoreBinariaDeBusca<Candidato> abb = new ArvoreBinariaDeBusca<Candidato>();
 		try(Scanner sc = new Scanner(new File("candidato.txt"))){
 			sc.nextLine();
@@ -41,7 +42,7 @@ public class DAOCandidato {
 				Partido partido = Partido.getPartido(Integer.parseInt(split[3]));
 				TipoCandidato tp = null;
 				
-				if(split[1].length() <= 3)
+				if(split[1].length() <= 4)
 					tp = TipoCandidato.FEDERAL;
 				else
 					tp = TipoCandidato.REGIONAL;
@@ -50,6 +51,9 @@ public class DAOCandidato {
 				abb.add(cad);
 				
 			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return abb;
 	}

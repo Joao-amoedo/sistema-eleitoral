@@ -53,6 +53,10 @@ public class Candidato implements Elemento{
 		return tipoCandidato;
 	}
 	
+	public void acressentaVoto() {
+		this.qtdVotos++;
+	}
+	
 	
 	@Override
 	public String toString() {

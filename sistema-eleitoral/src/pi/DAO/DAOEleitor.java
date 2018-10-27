@@ -45,7 +45,7 @@ public class DAOEleitor {
 		}
 	}
 	
-	public static ArvoreBinariaDeBusca<Eleitor> lerArquivo(ArvoreBinariaDeBusca<Candidato> ab) throws FileNotFoundException {
+	public static ArvoreBinariaDeBusca<Eleitor> lerArquivo(ArvoreBinariaDeBusca<Candidato> ab) {
 		
 		
 		ArvoreBinariaDeBusca<Eleitor> abEleitor = new ArvoreBinariaDeBusca<Eleitor>();
@@ -59,7 +59,7 @@ public class DAOEleitor {
 				
 				UF uf = UF.valueOf(split[1]);
 				
-				long cpf = Long.parseLong(split[2]);
+				long cpf = Long.parseLong(split[2].replace(".", "").replace("-", ""));
 				
 				long sequencial = Integer.parseInt(split[3]);
 				int codigoDoMunicipio = Integer.parseInt(split[4]);
@@ -67,19 +67,16 @@ public class DAOEleitor {
 				int codCandidatoFederal = Integer.parseInt(split[5]);
 				int codCandidatoRegional = Integer.parseInt(split[7]);
 
-//				System.out.println(codCandidatoFederal);
-//				System.out.println(ab.buscaBinaria(codCandidatoFederal));
-//				System.out.println(ab.buscaBinaria(codCandidatoRegional));
-//				ab.emOrdem();
+				Candidato candidatoFederal = ab.buscaBinaria(codCandidatoFederal);
+				Candidato candidatoRegional = ab.buscaBinaria(codCandidatoRegional);
 				
-				Candidato candidatoFederal = ab.buscaBinaria(codCandidatoFederal).getConteudo();
-				Candidato candidatoRegional = ab.buscaBinaria(codCandidatoRegional).getConteudo();
-//				
 				Eleitor eleitor = new Eleitor(uf,cpf,sequencial,codigoDoMunicipio,candidatoFederal,candidatoRegional);
-//				
+				
 				abEleitor.add(eleitor);
 				
 			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
 		
 		return abEleitor;
@@ -132,7 +129,7 @@ public class DAOEleitor {
 		try {
 			gravarArquivoMassa(listEleitor);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		

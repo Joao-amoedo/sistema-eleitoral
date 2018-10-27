@@ -39,6 +39,16 @@ public class ArvoreBinaria <T extends Elemento> implements Arvore {
 	@Override
 	public boolean add(Elemento elemento) {
 		Node<T> novo = new Node<T>((T) elemento);
+		if (raiz == null) {
+			raiz = novo;
+			return true;
+		} else {
+			return add(raiz, novo);
+		}
+	}
+	
+	public boolean add(Elemento elemento, boolean grava) {
+		Node<T> novo = new Node<T>((T) elemento);
 		boolean adicionado = false;
 		if (raiz == null) {
 			raiz = novo;
@@ -46,8 +56,8 @@ public class ArvoreBinaria <T extends Elemento> implements Arvore {
 		} else {
 			adicionado = add(raiz, novo);
 		}
-//		if (adicionado)
-//			gravaArquivo(novo);
+		if (adicionado && grava)
+			gravaArquivo(novo);
 		return adicionado;
 	}
 
@@ -70,11 +80,6 @@ public class ArvoreBinaria <T extends Elemento> implements Arvore {
 		}
 	}
 
-	public void teste() {
-
-		System.out.println(raiz.getConteudo() instanceof Eleitor);
-		System.out.println(raiz.getConteudo() instanceof Candidato);
-	}
 
 	/**
 	 * Método privado sobrecarregado para adicionar elemento na Árvore de forma
