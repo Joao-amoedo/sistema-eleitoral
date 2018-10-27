@@ -1,1 +1,3 @@
+1;codigo_do_canditado;nome_ canditado;codigo_do_partido
 2;1;Adamastor Pequeno;30
+2;1002;Adamastor Pequeno;1

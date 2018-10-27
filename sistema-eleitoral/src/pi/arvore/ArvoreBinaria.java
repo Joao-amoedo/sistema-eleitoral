@@ -1,24 +1,63 @@
 package pi.arvore;
 
+import pi.DAO.DAOCandidato;
+import pi.DAO.DAOEleitor;
+import pi.model.Candidato;
+import pi.model.Eleitor;
+import pi.model.Elemento;
 import pi.node.Cor;
 import pi.node.Node;
 
-public class ArvoreBinaria implements Arvore {
+public class ArvoreBinaria<T extends Elemento> implements Arvore {
 
-	private Node raiz;
+	protected Node<T> raiz;
 
-	public ArvoreBinaria(int elemento) {
-		raiz = new Node(elemento, Cor.PRETO);
+	public ArvoreBinaria(T elemento) {
+		raiz = new Node<T>(elemento, Cor.PRETO);
+//		this.gravaArquivo(raiz);
+	}	
+	public ArvoreBinaria() {
+		this.raiz = null;
 	}
 
 	@Override
-	public boolean add(Integer elemento) {
-		Node novo = new Node(elemento);
+	public boolean add(Elemento elemento) {
+		Node<T> novo = new Node<T>((T) elemento);
+		boolean adicionado = false;
 		if (raiz == null) {
 			raiz = novo;
-			return true;
-		} else
-			return add(raiz, novo);
+			adicionado = true;
+		} else {
+			adicionado = add(raiz, novo);
+		}
+//		if (adicionado)
+//			gravaArquivo(novo);
+		return adicionado;
+	}
+
+	protected void gravaArquivo(Node<T> novo) {
+		T conteudo = novo.getConteudo();
+		if (conteudo instanceof Eleitor) {
+			try {
+				DAOEleitor.gravarArquivo(conteudo.toString());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				DAOCandidato.gravarArquivo(conteudo.toString());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void teste() {
+
+		System.out.println(raiz.getConteudo() instanceof Eleitor);
+		System.out.println(raiz.getConteudo() instanceof Candidato);
 	}
 
 	/**
@@ -29,8 +68,8 @@ public class ArvoreBinaria implements Arvore {
 	 * @param novo
 	 * @return adiciona
 	 */
-	protected boolean add(Node raiz, Node novo) {
-		Node aux = raiz;
+	protected boolean add(Node<T> raiz, Node<T> novo) {
+		Node<T> aux = raiz;
 		if (aux.getElemento() < novo.getElemento())
 			return addDireita(aux, novo);
 		else if (aux.getElemento() > novo.getElemento()) {
@@ -46,7 +85,7 @@ public class ArvoreBinaria implements Arvore {
 	 * @param novo
 	 * @return adiciona
 	 */
-	protected boolean addDireita(Node aux, Node novo) {
+	protected boolean addDireita(Node<T> aux, Node<T> novo) {
 		if (aux.getElemento() == novo.getElemento())
 			return false;
 		else if (aux.getDireita() != null)
@@ -64,7 +103,7 @@ public class ArvoreBinaria implements Arvore {
 	 * @param novo
 	 * @return adiciona
 	 */
-	private boolean addEsquerda(Node aux, Node novo) {
+	private boolean addEsquerda(Node<T> aux, Node<T> novo) {
 		if (aux.getElemento() == novo.getElemento())
 			return false;
 		else if (aux.getEsquerda() != null)
@@ -86,9 +125,9 @@ public class ArvoreBinaria implements Arvore {
 		return false;
 	}
 
-	protected boolean remove(Node raiz, Integer elemento) {
+	protected boolean remove(Node<T> raiz, Integer elemento) {
 		if (raiz.getElemento() < elemento) {
-			Node direita = raiz.getDireita();
+			Node<T> direita = raiz.getDireita();
 			if (direita == null)
 				return false;
 			else if (direita.getElemento() != elemento)
@@ -98,7 +137,7 @@ public class ArvoreBinaria implements Arvore {
 				return true;
 			}
 		} else {
-			Node esquerda = raiz.getEsquerda();
+			Node<T> esquerda = raiz.getEsquerda();
 			if (esquerda == null)
 				return false;
 			else if (esquerda.getElemento() != elemento)
@@ -117,9 +156,8 @@ public class ArvoreBinaria implements Arvore {
 	 * @param raiz
 	 * @return novo
 	 */
-	private Node verificaTipoRemocao(Node raiz) {
+	private Node<T> verificaTipoRemocao(Node<T> raiz) {
 		int qtd = raiz.getQuantidadeDeFilhos();
-		Node aux = raiz;
 		if (qtd == 0)
 			return null;
 		else if (qtd == 1)
@@ -137,8 +175,8 @@ public class ArvoreBinaria implements Arvore {
 	 * @param raiz
 	 * @return novo
 	 */
-	private Node remocaoComposta(Node raiz) {
-		Node aux;
+	private Node<T> remocaoComposta(Node<T> raiz) {
+		Node<T> aux;
 		aux = maiorEsquerda(raiz.getEsquerda());
 		aux.setDireita(raiz.getDireita());
 		if (raiz.getEsquerda() != aux)
@@ -152,7 +190,7 @@ public class ArvoreBinaria implements Arvore {
 	 * @param raiz
 	 * @return novo
 	 */
-	private Node remocaoSimplesEsquerda(Node remove) {
+	private Node<T> remocaoSimplesEsquerda(Node<T> remove) {
 		return remove.getEsquerda();
 	}
 
@@ -162,7 +200,7 @@ public class ArvoreBinaria implements Arvore {
 	 * @param remove
 	 * @return novo
 	 */
-	private Node remocaoSimplesDireita(Node remove) {
+	private Node<T> remocaoSimplesDireita(Node<T> remove) {
 		return remove.getDireita();
 	}
 
@@ -172,9 +210,9 @@ public class ArvoreBinaria implements Arvore {
 	 * @param raiz
 	 * @return maiorEsquerda
 	 */
-	private Node maiorEsquerda(Node raiz) {
+	private Node<T> maiorEsquerda(Node<T> raiz) {
 
-		Node remover = raiz;
+		Node<T> remover = raiz;
 
 		if (raiz.getDireita() != null)
 			remover = maiorEsquerda(raiz.getDireita());
@@ -192,7 +230,7 @@ public class ArvoreBinaria implements Arvore {
 	 * @return raiz
 	 */
 	@Override
-	public Node getRaiz() {
+	public Node<T> getRaiz() {
 		return raiz;
 	}
 
@@ -205,6 +243,7 @@ public class ArvoreBinaria implements Arvore {
 		else
 			preOrdem(raiz);
 	}
+
 	/**
 	 * Percorre toda a árvore mostrando em emOrdem
 	 */
@@ -214,6 +253,7 @@ public class ArvoreBinaria implements Arvore {
 		else
 			emOrdem(raiz);
 	}
+
 	/**
 	 * Percorre toda a árvore mostrando em posOrdem
 	 */
@@ -226,9 +266,10 @@ public class ArvoreBinaria implements Arvore {
 
 	/**
 	 * Metodo recursivo para percorrer toda a árvore
+	 * 
 	 * @param raiz
 	 */
-	private void preOrdem(Node raiz) {
+	private void preOrdem(Node<T> raiz) {
 		if (raiz == null)
 			return;
 		System.out.println(raiz);
@@ -236,11 +277,13 @@ public class ArvoreBinaria implements Arvore {
 		preOrdem(raiz.getDireita());
 
 	}
+
 	/**
 	 * Metodo recursivo para percorrer toda a árvore
+	 * 
 	 * @param raiz
 	 */
-	private void emOrdem(Node raiz) {
+	private void emOrdem(Node<T> raiz) {
 		if (raiz == null)
 			return;
 		preOrdem(raiz.getEsquerda());
@@ -248,11 +291,13 @@ public class ArvoreBinaria implements Arvore {
 		preOrdem(raiz.getDireita());
 
 	}
+
 	/**
 	 * Metodo recursivo para percorrer toda a árvore
+	 * 
 	 * @param raiz
 	 */
-	private void posOrdem(Node raiz) {
+	private void posOrdem(Node<T> raiz) {
 		if (raiz == null)
 			return;
 		preOrdem(raiz.getEsquerda());

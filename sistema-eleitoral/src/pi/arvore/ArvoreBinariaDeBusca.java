@@ -1,26 +1,51 @@
 package pi.arvore;
 
+import pi.model.Elemento;
 import pi.node.Node;
 
 
-public class ArvoreBinariaDeBusca extends ArvoreBinaria implements ArvoreDeBusca{
+public class ArvoreBinariaDeBusca <T extends Elemento> extends ArvoreBinaria<T> {
 
-	public ArvoreBinariaDeBusca(int elemento) {
+	public ArvoreBinariaDeBusca(T elemento) {
 		super(elemento);
 	}
 
-	@Override
-	public Node buscaBinaria(Integer elemento) {
+
+	public ArvoreBinariaDeBusca() {
+		super();
+	}
+
+
+	public Node<T> buscaBinaria(long elemento) {
+		
+		return buscaBinaria(elemento,this.raiz);
+	}
+	
+	private Node<T> buscaBinaria(long elemento, Node<T> raiz){
+		
+		if(raiz.getElemento() > elemento)
+			if(raiz.getEsquerda() != null)
+				return buscaBinaria(elemento,raiz.getEsquerda());
+			else
+				return null;
+		else if(raiz.getElemento() < elemento)
+			if(raiz.getDireita() != null)
+				return buscaBinaria(elemento,raiz.getDireita());
+			else
+				return null;
+		else{
+			return raiz;
+		}
+		
+	}
+
+
+	public Node<T> buscaProfundidade(long elemento) {
 		return null;
 	}
 
-	@Override
-	public Node buscaProfundidade(Integer elemento) {
-		return null;
-	}
 
-	@Override
-	public Node buscaLargura(Integer elemento) {
+	public Node<T> buscaLargura(long elemento) {
 		return null;
 	}
 

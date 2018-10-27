@@ -1,8 +1,9 @@
 package pi.arvore;
 
+import pi.model.Elemento;
 import pi.node.Node;
 
-public interface Arvore {
+public interface Arvore <T extends Elemento>{
 	/**
 	 * Metodo público que adiciona elemento na árvore, caso o elemeto seja repetido,
 	 * retorna false
@@ -10,7 +11,7 @@ public interface Arvore {
 	 * @return adiciona
 	 * @param elemento
 	 */
-	public boolean add(Integer elemento);
+	public boolean add(T elemento);
 
 	/**
 	 * Metodo público de remoção
@@ -24,6 +25,7 @@ public interface Arvore {
 	 * Retorna a raiz da árvore
 	 * @return raiz
 	 */
-	public Node getRaiz();
-
+	public Node<T> getRaiz();
+	
+	
 }

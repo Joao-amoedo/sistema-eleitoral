@@ -1,19 +1,20 @@
 package pi.arvore;
 
+import pi.model.Elemento;
 import pi.node.Cor;
 import pi.node.Node;
 
-public class ArvoreRubroNegra extends ArvoreBalanceada {
+public class ArvoreRubroNegra <T extends Elemento>extends ArvoreBalanceada<T> {
 	
 
-	private Node pivo = new Node(null, Cor.PRETO);
+	private Node<T> pivo = new Node<T>(null, Cor.PRETO);
 	
-	public ArvoreRubroNegra(int elemento) {
+	public ArvoreRubroNegra(T elemento) {
 		super(elemento);
 	}
 	
 	
-	protected boolean add(Node raiz, Node novo) {
+	protected boolean add(Node<T> raiz, Node<T> novo) {
 		if(raiz.getElemento() == novo.getElemento())
 			return false;
 		else

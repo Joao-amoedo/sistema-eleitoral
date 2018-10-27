@@ -1,6 +1,6 @@
 package pi.model;
 
-public class Eleitor {
+public class Eleitor implements Elemento{
 
 	private long cpf;
 	private UF regiao;
@@ -32,7 +32,7 @@ public class Eleitor {
 		this.sequencial = sequencial;
 	}
 
-	public long getCpf() {
+	public long getElemento() {
 		return cpf;
 	}
 
@@ -62,11 +62,10 @@ public class Eleitor {
 
 	@Override
 	public String toString() {
-		System.out.println("Eleitor criado com sucesso!");
 		return "2;" + regiao + ";" + cpf + ";" + sequencial + ";" + codigoMunicipio + ";"
-				+ candidatoFederal.getCodigoCandidato() + ";" + 
+				+ candidatoFederal.getElemento() + ";" + 
 				this.getCodigoPartidoFederal() + ";"
-				+ candidatoRegional.getCodigoCandidato() + ";" + 
+				+ candidatoRegional.getElemento() + ";" + 
 				this.getCodigoPartidoRegional();
 	}
 

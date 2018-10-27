@@ -1,23 +1,24 @@
 package pi.arvore;
+import pi.model.Elemento;
 import pi.node.Node;
 
 
-public abstract class ArvoreBalanceada extends ArvoreBinariaDeBusca{
+public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinariaDeBusca<T>{
 	
-	public ArvoreBalanceada(int elemento) {
+	public ArvoreBalanceada(T elemento) {
 		super(elemento);
 	}
 
-	protected Node RSE(Node raiz) {
+	protected Node<T> RSE(Node<T> raiz) {
 		return null;
 	}
-	protected Node RSD() {
+	protected Node<T> RSD() {
 		return null;
 	}
-	protected Node RDD() {
+	protected Node<T> RDD() {
 		return null;
 	}
-	protected Node RDE() {
+	protected Node<T> RDE() {
 		return null;
 	}
 

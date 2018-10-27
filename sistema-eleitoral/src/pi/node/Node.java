@@ -1,22 +1,27 @@
 package pi.node;
 
+import pi.model.Candidato;
+import pi.model.Eleitor;
+import pi.model.Elemento;
+
 /**
  * Classe Node da árvore binária
  * 
  * @author João P. Amoêdo
  *
  */
-public class Node {
+@SuppressWarnings("hiding")
+public class  Node  <t extends Elemento>{
 
-	private Node direita;
+	private Node<t> direita;
 
-	private Node esquerda;
+	private Node<t> esquerda;
 
-	private Node pai = null;
+	private Node<t> pai = null;
 	
 	private Cor cor;
 
-	private Integer elemento;
+	private t conteudo;
 
 	private int altura;
 
@@ -27,15 +32,15 @@ public class Node {
 	 * 
 	 * @param elemento
 	 */
-	public Node(int elemento) {
-		this.elemento = elemento;
+	public Node(t conteudo) {
+		this.conteudo = conteudo;
 		this.direita = null;
 		this.esquerda = null;
 		this.cor = Cor.VERMELHO;
 	}
 
-	public Node(Integer elemento, Cor cor) {
-		this.elemento = elemento;
+	public Node(t conteudo, Cor cor) {
+		this.conteudo = conteudo;
 		this.direita = null;
 		this.esquerda = null;
 		this.cor = cor;
@@ -47,7 +52,7 @@ public class Node {
 	 * @return direita
 	 */
 
-	public Node getDireita() {
+	public Node<t> getDireita() {
 		return this.direita;
 	}
 
@@ -56,7 +61,7 @@ public class Node {
 	 * 
 	 * @return esquerda
 	 */
-	public Node getEsquerda() {
+	public Node<t> getEsquerda() {
 		return this.esquerda;
 	}
 
@@ -65,8 +70,9 @@ public class Node {
 	 * 
 	 * @return elemento
 	 */
-	public int getElemento() {
-		return this.elemento;
+	@SuppressWarnings("unchecked")
+	public long getElemento() {
+		return this.conteudo.getElemento();
 	}
 
 	/**
@@ -74,7 +80,7 @@ public class Node {
 	 * 
 	 * @param direita
 	 */
-	public void setDireita(Node direita) {
+	public void setDireita(Node<t> direita) {
 		this.direita = direita;
 	}
 
@@ -115,7 +121,11 @@ public class Node {
 		}
 
 	}
-
+	
+	public t getConteudo() {
+		return (t) this.conteudo;
+	}
+	
 	public int getAltura() {
 		return this.altura;
 	}
@@ -125,7 +135,7 @@ public class Node {
 	 * 
 	 * @param esquerda
 	 */
-	public void setEsquerda(Node esquerda) {
+	public void setEsquerda(Node<t> esquerda) {
 		this.esquerda = esquerda;
 	}
 
@@ -157,7 +167,7 @@ public class Node {
 
 	@Override
 	public String toString() {
-		return this.elemento + "";
+		return this.conteudo + "";
 	}
 
 }
