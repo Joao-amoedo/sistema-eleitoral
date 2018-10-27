@@ -20,7 +20,7 @@ public class CPF {
         else  
             segDig = new Integer(11 - (soma % 11));  
         return primDig.toString() + segDig.toString();  
-    }  
+    }
     public static String geraCPF() {  
         String iniciais = "";  
         Integer numero;  

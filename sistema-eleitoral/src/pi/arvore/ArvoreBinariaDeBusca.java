@@ -19,6 +19,7 @@ public class ArvoreBinariaDeBusca <T extends Elemento> extends ArvoreBinaria<T> 
 	public Node<T> buscaBinaria(long elemento) {
 		
 		return buscaBinaria(elemento,this.raiz);
+		
 	}
 	
 	private Node<T> buscaBinaria(long elemento, Node<T> raiz){
