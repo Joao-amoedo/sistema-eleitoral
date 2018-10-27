@@ -1,5 +1,5 @@
 package pi.model;
-public class Candidato {
+public class Candidato implements Elemento{
 
 	private String nome;
 	private Partido partido;
@@ -13,7 +13,17 @@ public class Candidato {
 		this.partido = partido;
 		this.tipoCandidato = tipoCandidato;
 		codigoCandidatos++;
-		this.codigoCandidato = codigoCandidatos;
+		if(tipoCandidato == TipoCandidato.REGIONAL)
+			this.codigoCandidato = (short) (codigoCandidatos + 1000);
+		else
+			this.codigoCandidato = codigoCandidatos;
+	}
+	public Candidato(String nome, Partido partido, TipoCandidato tipoCandidato,short codigoCandidato){
+		this.nome = nome;
+		this.partido = partido;
+		this.tipoCandidato = tipoCandidato;
+		codigoCandidatos++;
+		this.codigoCandidato = codigoCandidato;
 	}
 
 
@@ -29,7 +39,7 @@ public class Candidato {
 		return qtdVotos;
 	}
 
-	public short getCodigoCandidato() {
+	public long getElemento() {
 		return codigoCandidato;
 	}
 

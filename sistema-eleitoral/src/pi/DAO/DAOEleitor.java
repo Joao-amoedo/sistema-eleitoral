@@ -11,6 +11,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
 
+import pi.arvore.Arvore;
+import pi.arvore.ArvoreBinariaDeBusca;
 import pi.model.Candidato;
 import pi.model.Eleitor;
 import pi.model.Partido;
@@ -19,8 +21,7 @@ import pi.node.Node;
 
 public class DAOEleitor {
 
-	public void gravarArquivo(String texto) throws Exception {
-
+	public static void gravarArquivo(String texto) throws Exception {
 		try (FileWriter fw = new FileWriter("eleitor.txt", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw)) {
@@ -30,7 +31,8 @@ public class DAOEleitor {
 		}
 	}
 	
-	public void lerArquivo(List<Candidato> lista) throws FileNotFoundException {
+	public static ArvoreBinariaDeBusca<Eleitor> lerArquivo(ArvoreBinariaDeBusca<Candidato> ab) throws FileNotFoundException {
+		ArvoreBinariaDeBusca<Eleitor> abb = new ArvoreBinariaDeBusca<Eleitor>();
 		try(Scanner sc = new Scanner(new File("eleitor.txt"))){
 			sc.nextLine();
 			while(sc.hasNextLine()) {
@@ -43,24 +45,21 @@ public class DAOEleitor {
 				int codigoDoMunicipio = Integer.parseInt(split[4]);
 				int codCandidatoFederal = Integer.parseInt(split[5]);
 				int codCandidatoRegional = Integer.parseInt(split[7]);
-				Candidato candidatoFederal = null;
-				Candidato candidatoRegional = null;
-				
-				for(Candidato ca : lista) {
-					if(ca.getCodigoCandidato() == codCandidatoFederal) {
-						 candidatoFederal = ca;
-					}
-					
-					if(ca.getCodigoCandidato() == codCandidatoRegional) {
-						candidatoRegional = ca;
-					}
-				}
-				
+
+				System.out.println(codCandidatoFederal);
+				System.out.println(ab.buscaBinaria(codCandidatoFederal));
+				System.out.println(ab.buscaBinaria(codCandidatoRegional));
+//				ab.emOrdem();
+				Candidato candidatoFederal = ab.buscaBinaria(codCandidatoFederal).getConteudo();
+				Candidato candidatoRegional= ab.buscaBinaria(codCandidatoRegional).getConteudo();
+//				
 				Eleitor eleitor = new Eleitor(uf,cpf,sequencial,codigoDoMunicipio,candidatoFederal,candidatoRegional);
+//				
+				ab.add(eleitor);
 				
-				System.out.println(eleitor);
 			}
 		}
+		return abb;
 		
 
 	}

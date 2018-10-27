@@ -1,3 +1,4 @@
+package pi.model.cpf;
 
 public class CPF {
 	private static String calcDigVerif(String num) {  
