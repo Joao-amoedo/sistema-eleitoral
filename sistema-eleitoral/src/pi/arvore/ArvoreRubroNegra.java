@@ -14,15 +14,6 @@ public class ArvoreRubroNegra <T extends Elemento>extends ArvoreBalanceada<T> {
 	}
 	
 	
-	protected boolean add(Node<T> raiz, Node<T> novo) {
-		if(raiz.getElemento() == novo.getElemento())
-			return false;
-		else
-			if(raiz.getElemento() < novo.getElemento()) {
-				add(raiz.getDireita(),novo);
-			}
-		return false;
-	}
 	
 	
 	

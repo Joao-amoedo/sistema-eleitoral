@@ -11,54 +11,28 @@ import pi.model.Elemento;
 import pi.node.Cor;
 import pi.node.Node;
 
-public class ArvoreBinaria <T extends Elemento> implements Arvore {
+public class ArvoreBinaria<T extends Elemento> implements Arvore {
 
 	protected Node<T> raiz;
 
 	/**
-	 * True para caso vá gravar no arquivo
-	 * False para caso não vá gravar no arquivo
+	 * True para caso vá gravar no arquivo False para caso não vá gravar no arquivo
+	 * 
 	 * @param elemento
 	 * @param grava
 	 */
-	public ArvoreBinaria(T elemento,boolean grava) {
+	public ArvoreBinaria(T elemento, boolean grava) {
 		raiz = new Node<T>(elemento, Cor.PRETO);
-		if(grava)
+		if (grava)
 			this.gravaArquivo(raiz);
-	}		
-	
-	public ArvoreBinaria(T elemento) {
-		raiz = new Node<T>(elemento, Cor.PRETO);
-	}	
-	
-	
-	public ArvoreBinaria() {
-		this.raiz = null;
 	}
 
-	@Override
-	public boolean add(Elemento elemento) {
-		Node<T> novo = new Node<T>((T) elemento);
-		if (raiz == null) {
-			raiz = novo;
-			return true;
-		} else {
-			return add(raiz, novo);
-		}
+	public ArvoreBinaria(T elemento) {
+		raiz = new Node<T>(elemento, Cor.PRETO);
 	}
-	
-	public boolean add(Elemento elemento, boolean grava) {
-		Node<T> novo = new Node<T>((T) elemento);
-		boolean adicionado = false;
-		if (raiz == null) {
-			raiz = novo;
-			adicionado = true;
-		} else {
-			adicionado = add(raiz, novo);
-		}
-		if (adicionado && grava)
-			gravaArquivo(novo);
-		return adicionado;
+
+	public ArvoreBinaria() {
+		this.raiz = null;
 	}
 
 	protected void gravaArquivo(Node<T> novo) {
@@ -80,103 +54,58 @@ public class ArvoreBinaria <T extends Elemento> implements Arvore {
 		}
 	}
 
-
-	/**
-	 * Método privado sobrecarregado para adicionar elemento na Árvore de forma
-	 * recursivo
-	 * 
-	 * @param raiz
-	 * @param novo
-	 * @return adiciona
-	 */
-	protected boolean add(Node<T> raiz, Node<T> novo) {
-		Node<T> aux = raiz;
-		if (aux.getElemento() < novo.getElemento())
-			return addDireita(aux, novo);
-		else if (aux.getElemento() > novo.getElemento()) {
-			return addEsquerda(aux, novo);
-		} else
-			return false;
-	}
-
-	/**
-	 * Adiciona no elemento direito da árvore
-	 * 
-	 * @param aux
-	 * @param novo
-	 * @return adiciona
-	 */
-	protected boolean addDireita(Node<T> aux, Node<T> novo) {
-		if (aux.getElemento() == novo.getElemento())
-			return false;
-		else if (aux.getDireita() != null)
-			return add(aux.getDireita(), novo);
-		else {
-			aux.setDireita(novo);
-			return true;
-		}
-	}
-
-	/**
-	 * Adiciona no elemento esquerdo da árvore
-	 * 
-	 * @param aux
-	 * @param novo
-	 * @return adiciona
-	 */
-	private boolean addEsquerda(Node<T> aux, Node<T> novo) {
-		if (aux.getElemento() == novo.getElemento())
-			return false;
-		else if (aux.getEsquerda() != null)
-			return add(aux.getEsquerda(), novo);
-		else {
-			aux.setEsquerda(novo);
-			return true;
-		}
-	}
-
 	@Override
-	public boolean remove(Integer elemento) {
-		if (this.raiz.getElemento() == elemento) {
-			raiz = verificaTipoRemocao(raiz);
+	public boolean add(Elemento elemento) {
+		Node<T> novo = new Node<T>((T) elemento);
+		try {
+			raiz = add(raiz, novo);
 			return true;
-		} else {
-			remove(raiz, elemento);
-		}
-		return false;
-	}
-
-	protected boolean remove(Node<T> raiz, Integer elemento) {
-		if (raiz.getElemento() < elemento) {
-			Node<T> direita = raiz.getDireita();
-			if (direita == null)
-				return false;
-			else if (direita.getElemento() != elemento)
-				return remove(direita, elemento);
-			else {
-				raiz.setDireita(verificaTipoRemocao(direita));
-				return true;
-			}
-		} else {
-			Node<T> esquerda = raiz.getEsquerda();
-			if (esquerda == null)
-				return false;
-			else if (esquerda.getElemento() != elemento)
-				return remove(esquerda, elemento);
-			else {
-				raiz.setEsquerda(verificaTipoRemocao(esquerda));
-				return true;
-			}
-
+		} catch (IllegalArgumentException ex) {
+			return false;
 		}
 	}
 
-	/**
-	 * Metodo para verificar o tipo de remoção e executa-la
-	 * 
-	 * @param raiz
-	 * @return novo
-	 */
+	protected Node<T> add(Node<T> raiz, Node<T> novo) {
+		if (raiz == null)
+			return novo;
+		else if (raiz.getElemento() == novo.getElemento())
+			throw new IllegalArgumentException("Elemento repetido");
+		else if (raiz.getElemento() < novo.getElemento())
+			raiz.setDireita(add(raiz.getDireita(), novo));
+		else
+			raiz.setEsquerda(add(raiz.getEsquerda(), novo));
+		return raiz;
+	}
+	
+	
+	public boolean remove(long elemento) {
+		try{
+			raiz = remove(raiz,elemento);
+			return true;
+		}catch(IllegalArgumentException ex) {
+			return false;
+		}
+	}
+	
+	protected Node<T> remove(Node<T> raiz,long elemento){
+		if(raiz.getElemento() == elemento)
+			return verificaTipoRemocao(raiz);
+		else if(raiz.getElemento() < elemento) {
+			if(raiz.getDireita() != null)
+				raiz.setDireita(remove(raiz.getDireita(),elemento));
+			else
+				throw new IllegalArgumentException("Elemento não encontrado");
+		}
+		else{
+			if(raiz.getEsquerda() != null)
+				raiz.setEsquerda(remove(raiz.getEsquerda(),elemento));
+			else
+				throw new IllegalArgumentException("Elemento não encontrado");
+		}
+		return raiz;
+	}
+
+	
 	private Node<T> verificaTipoRemocao(Node<T> raiz) {
 		int qtd = raiz.getQuantidadeDeFilhos();
 		if (qtd == 0)
@@ -326,26 +255,21 @@ public class ArvoreBinaria <T extends Elemento> implements Arvore {
 		System.out.println(raiz);
 
 	}
-	
-	public List<T> toList(){
+
+	public List<T> toList() {
 		List<T> lista = new ArrayList<T>();
-		return toList(lista,this.raiz);
-	}	
-	
-	private List<T> toList(List<T> lista,Node<T> raiz){
-		if(raiz.getEsquerda() != null)
-			toList(lista,raiz.getEsquerda());
-		
-		
+		return toList(lista, this.raiz);
+	}
+
+	private List<T> toList(List<T> lista, Node<T> raiz) {
+		if (raiz.getEsquerda() != null)
+			toList(lista, raiz.getEsquerda());
+
 		lista.add(raiz.getConteudo());
-		
-		
-		if(raiz.getDireita() != null)
-			toList(lista,raiz.getDireita());
+
+		if (raiz.getDireita() != null)
+			toList(lista, raiz.getDireita());
 		return lista;
 	}
-	
-	
-	
 
 }
