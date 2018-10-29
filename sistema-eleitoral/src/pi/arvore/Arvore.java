@@ -19,7 +19,7 @@ public interface Arvore <T extends Elemento>{
 	 * @return removido
 	 * @param elemento
 	 */
-	public boolean remove(Integer elemento);
+	public boolean remove(long elemento);
 	
 	/**
 	 * Retorna a raiz da árvore

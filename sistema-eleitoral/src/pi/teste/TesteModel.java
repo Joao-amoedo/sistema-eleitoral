@@ -24,20 +24,26 @@ public class TesteModel {
 				Partido.PSOL, TipoCandidato.REGIONAL);
 		Eleitor el1 = new Eleitor( UF.PA, 051, 66, caFed, caReg);
 		
+		ArvoreBinaria<Eleitor> ab2 = new ArvoreBinaria<Eleitor>(el1,false);
+		
 //		System.out.println(el1);
 //		
-		long inicio = System.currentTimeMillis();
-
+		long inicioLeitura = System.currentTimeMillis();
 		ArvoreBinariaDeBusca<Candidato> abCand = DAOCandidato.lerArquivo();
+//		ArvoreBinaria<Eleitor> ab2 = DAOEleitor.lerArquivo(abCand);
+		long fimLeitura = System.currentTimeMillis();
+		long tempoTotalLeitura = fimLeitura - inicioLeitura;
 		
-		ArvoreBinaria<Eleitor> ab2 = DAOEleitor.lerArquivo(abCand);
-		DAOEleitor.geraEleitor(ab2, abCand.toList(), 1);
+		long inicioGeracao = System.currentTimeMillis();
+		DAOEleitor.geraEleitor(ab2, abCand.toList(), 50000000);
+		long fimGeracao = System.currentTimeMillis();
+		long tempoTotalGeracao = fimGeracao - inicioGeracao;
 		
-		long fim = System.currentTimeMillis();
-		long tempoTotal = fim - inicio;
-		System.out.println(String.format("Tempo que demorou: %d",tempoTotal));
+		System.out.println(String.format("Tempo que demorou para gerar: %d/ms",tempoTotalGeracao));
+		System.out.println(String.format("Tempo que demorou para ler: %d/ms", tempoTotalLeitura));
 		System.out.println(ab2.getRaiz().getConteudo().getCandidatoRegional().getQtdVotos());
-		
+//		ab2.emOrdem();
+		System.out.println(ab2.toList().size());
 //		ab2.emOrdem();
 		
 //		ab2.emOrdem();
