@@ -1,6 +1,7 @@
 package pi.model;
 
 public enum UF {
+
 	TO((short) 0), MA((short) 1), PA((short) 2);
 
 	private short codigo;

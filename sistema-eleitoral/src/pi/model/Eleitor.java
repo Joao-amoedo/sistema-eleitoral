@@ -7,34 +7,38 @@ public class Eleitor implements Elemento{
 	private int codigoMunicipio;
 	private Candidato candidatoFederal;
 	private Candidato candidatoRegional;
+	Candidato candidatoPresidenciavel;
 	private long sequencial;
 	private static long sequencialEleitores;
 
 	public Eleitor(UF regiao,long cpf,  int codigoMunicipio, Candidato candidatoFederal,
-			Candidato candidatoRegional) {
+			Candidato candidatoRegional, Candidato candidatoPresidenciavel) {
 		this.cpf = cpf;
 		this.regiao = regiao;
 		this.codigoMunicipio = codigoMunicipio;
 		this.candidatoFederal = candidatoFederal;
-		this.candidatoRegional = candidatoRegional;
+		this.candidatoPresidenciavel= candidatoPresidenciavel;
 		this.candidatoFederal.acressentaVoto();
 		this.candidatoRegional.acressentaVoto();
+		this.candidatoPresidenciavel.acressentaVoto();
 		this.sequencialEleitores++;
 		this.sequencial = sequencialEleitores;
 	}
-	
+
 	public Eleitor(UF regiao,long cpf, long sequencial,  int codigoMunicipio, Candidato candidatoFederal,
 			Candidato candidatoRegional) {
 		this.cpf = cpf;
 		this.regiao = regiao;
 		this.codigoMunicipio = codigoMunicipio;
 		this.candidatoFederal = candidatoFederal;
-		this.candidatoRegional = candidatoRegional;
+		this.candidatoPresidenciavel= candidatoPresidenciavel;
 		this.candidatoFederal.acressentaVoto();
 		this.candidatoRegional.acressentaVoto();
+		this.candidatoPresidenciavel.acressentaVoto();
 		this.sequencialEleitores++;
 		this.sequencial = sequencial;
 	}
+
 
 	public long getElemento() {
 		return cpf;
@@ -103,4 +107,7 @@ public class Eleitor implements Elemento{
 		return format;
 	}
 
+	public Candidato getCandidatoPresidenciavel() {
+		return candidatoPresidenciavel;
+	}
 }

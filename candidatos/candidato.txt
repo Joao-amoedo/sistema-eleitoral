@@ -2,3 +2,5 @@
 2;1001;Adamastor pequeno;2
 2;2;Lula Livre;3
 2;1002;Candidato Aleatorio;2
+2;101;Carlitos;30
+
