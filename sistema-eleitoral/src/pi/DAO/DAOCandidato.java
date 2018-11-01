@@ -20,7 +20,7 @@ public class DAOCandidato {
 	
 	public static void gravarArquivo(String texto) throws Exception {
 
-		try (FileWriter fw = new FileWriter("candidato.txt", true);
+		try (FileWriter fw = new FileWriter("candidatos//candidato.txt", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw)) {
 			out.println(texto);
@@ -29,9 +29,8 @@ public class DAOCandidato {
 		}
 	}
 	
-	public static ArvoreBinariaDeBusca<Candidato> lerArquivo() {
-		ArvoreBinariaDeBusca<Candidato> abb = new ArvoreBinariaDeBusca<Candidato>();
-		try(Scanner sc = new Scanner(new File("candidato.txt"))){
+	private static void lerArquivo(String nomeArquivo, ArvoreBinariaDeBusca<Candidato>abb) {
+		try(Scanner sc = new Scanner(new File(nomeArquivo))){
 			sc.nextLine();
 			while(sc.hasNextLine()) {
 				String linha = sc.nextLine();
@@ -48,6 +47,8 @@ public class DAOCandidato {
 					tp = TipoCandidato.REGIONAL;
 
 				Candidato cad = new Candidato(nomeCandidato,partido,tp,codigoCandidato);
+//				System.out.println(cad);
+				
 				abb.add(cad);
 				
 			}
@@ -55,6 +56,14 @@ public class DAOCandidato {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return abb;
+	}
+	
+
+	
+	public static ArvoreBinariaDeBusca<Candidato> lerArquivos() {
+		ArvoreBinariaDeBusca<Candidato> ab = new ArvoreBinariaDeBusca<Candidato>();
+		DAOCandidato.lerArquivo("candidato//candidato.txt",ab);
+		DAOCandidato.lerArquivo("candidato//presidente.txt",ab);
+		return ab;
 	}
 }

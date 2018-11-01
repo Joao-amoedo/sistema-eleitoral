@@ -9,22 +9,14 @@ import pi.model.UF;
 
 public class TesteAdd {
 	public static void main(String[] args) {
-		
-		
-		Candidato caFed = new Candidato("Adamastor Pequeno",
-				Partido.NOVO, TipoCandidato.FEDERAL);
-		Candidato caReg = new Candidato("Adamastor Pequeno",
-				Partido.PSOL, TipoCandidato.REGIONAL);
-		Eleitor el1 = new Eleitor( UF.PA, 1, 66, caFed, caReg);
-		Eleitor el2 = new Eleitor( UF.PA, 2, 66, caFed, caReg);
-		Eleitor el3 = new Eleitor( UF.PA, 3, 66, caFed, caReg);
-		Eleitor el4 = new Eleitor( UF.PA, 3, 66, caFed, caReg);
-		
+
+		Candidato caFed = new Candidato("Adamastor Pequeno", Partido.NOVO, TipoCandidato.FEDERAL);
+		Candidato caReg = new Candidato("Adamastor Pequeno", Partido.PSOL, TipoCandidato.REGIONAL);
+		Candidato caPres = new Candidato("Adamastor Maior", Partido.PSOL, TipoCandidato.PRESIDENTE);
+		Eleitor el1 = new Eleitor(UF.PA, 1, 66, caFed, caReg,caPres);
+
 		ArvoreBinaria<Eleitor> ab = new ArvoreBinaria<Eleitor>();
 		System.out.println(ab.add(el1));
-		System.out.println(ab.add(el2));
-		System.out.println(ab.add(el3));
-		System.out.println(ab.add(el4));
 		System.out.println(ab.remove(2));
 		ab.emOrdem();
 	}
