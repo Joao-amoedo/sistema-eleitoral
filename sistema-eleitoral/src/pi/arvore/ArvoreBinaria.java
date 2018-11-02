@@ -106,7 +106,7 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 	}
 
 	
-	private Node<T> verificaTipoRemocao(Node<T> raiz) {
+	protected Node<T> verificaTipoRemocao(Node<T> raiz) {
 		int qtd = raiz.getQuantidadeDeFilhos();
 		if (qtd == 0)
 			return null;
