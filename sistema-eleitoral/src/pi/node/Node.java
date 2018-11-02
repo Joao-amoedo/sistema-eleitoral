@@ -170,4 +170,16 @@ public class  Node  <t extends Elemento>{
 		return this.conteudo + "";
 	}
 
+	public void setPai(Node<t> pai) {
+		this.pai = pai;
+		
+	}
+
+	public Node<t> getPai() {
+		
+		return pai;
+	}
+	
+	
+
 }
