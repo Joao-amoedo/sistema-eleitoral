@@ -11,10 +11,8 @@ import java.util.Scanner;
 import pi.arvore.ArvoreBinaria;
 import pi.arvore.ArvoreBinariaDeBusca;
 import pi.model.Candidato;
-import pi.model.Eleitor;
 import pi.model.Partido;
 import pi.model.TipoCandidato;
-import pi.model.UF;
 
 public class DAOCandidato {
 	
@@ -25,7 +23,7 @@ public class DAOCandidato {
 				PrintWriter out = new PrintWriter(bw)) {
 			out.println(texto);
 		} catch (IOException e) {
-			// exceção
+			// exceï¿½ï¿½o
 		}
 	}
 	
@@ -58,7 +56,15 @@ public class DAOCandidato {
 		}
 	}
 	
-
+	public static void geraCandidatos(ArvoreBinaria<Candidato> ab, int qtdCandidatos) {
+		int contador = 0;
+		
+		while(contador<qtdCandidatos) {
+			TipoCandidato tipoCandidato = TipoCandidato.getTipoCandidatoAleatorio();
+			String nome = String.format("Candidato %i", Candidato.getCodigoCandidatos());
+			contador++;
+		}
+	}
 	
 	public static ArvoreBinariaDeBusca<Candidato> lerArquivos() {
 		ArvoreBinariaDeBusca<Candidato> ab = new ArvoreBinariaDeBusca<Candidato>();
