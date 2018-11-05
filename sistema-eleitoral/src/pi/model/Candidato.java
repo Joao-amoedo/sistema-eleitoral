@@ -49,7 +49,11 @@ public class Candidato implements Elemento {
 	public void acressentaVoto() {
 		this.qtdVotos++;
 	}
-
+	
+	public static long getCodigoCandidatos() {
+		return Candidato.codigoCandidatos;
+	}
+	
 	@Override
 	public String toString() {
 		return "2;" + this.codigoCandidato + ";" + this.nome + ";" + this.partido.getCodigo();
