@@ -61,8 +61,12 @@ public class DAOCandidato {
 		
 		while(contador<qtdCandidatos) {
 			TipoCandidato tipoCandidato = TipoCandidato.getTipoCandidatoAleatorio();
-			String nome = String.format("Candidato %i", Candidato.getCodigoCandidatos());
-			contador++;
+			String nome = String.format("Candidato %d", Candidato.getCodigoCandidatos() + 1);
+			Partido partido = Partido.getPartidoAleatorio();
+			
+			Candidato candidato = new Candidato(nome,partido,tipoCandidato);
+			if(ab.add(candidato,true))
+				contador++;
 		}
 	}
 	

@@ -53,7 +53,17 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 			}
 		}
 	}
-
+	public boolean add(Elemento elemento, boolean grava) {
+		Node novo = new Node(elemento);
+		boolean add = add(elemento);		
+		if(add && grava)
+			gravaArquivo(novo);
+		if(add)
+			return true;
+		else
+			return false;
+	}
+	
 	@Override
 	public boolean add(Elemento elemento) {
 		Node<T> novo = new Node<T>((T) elemento);

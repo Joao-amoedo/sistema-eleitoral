@@ -10,13 +10,15 @@ import pi.arvore.ArvoreBinaria;
 import pi.arvore.ArvoreBinariaDeBusca;
 import pi.model.Candidato;
 import pi.model.Eleitor;
+import pi.model.Partido;
 import pi.model.TipoCandidato;
 
 public class Teste {
 	public static void main(String[] args) {
 		
-		for(int x = 0; x<1000; x++)
-			System.out.println(TipoCandidato.getTipoCandidatoAleatorio());
+		ArvoreBinaria<Candidato> ab = new ArvoreBinaria<Candidato>();
+		DAOCandidato.geraCandidatos(ab, 100);
+		ab.emOrdem();
 			
 		
 	}	
