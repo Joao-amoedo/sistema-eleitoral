@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import pi.arvore.ArvoreBinaria;
@@ -15,6 +17,8 @@ import pi.model.Partido;
 import pi.model.TipoCandidato;
 
 public class DAOCandidato {
+
+
 	
 	public static void gravarArquivo(String texto) throws Exception {
 
@@ -39,13 +43,14 @@ public class DAOCandidato {
 				Partido partido = Partido.getPartido(Integer.parseInt(split[3]));
 				TipoCandidato tp = null;
 				
-				if(split[1].length() <= 4)
+				if(split[1].length() < 4)
 					tp = TipoCandidato.FEDERAL;
-				else
+				else if(split[1].length() == 4)
 					tp = TipoCandidato.REGIONAL;
+				else
+					tp = TipoCandidato.PRESIDENCIAVEL;
 
 				Candidato cad = new Candidato(nomeCandidato,partido,tp,codigoCandidato);
-//				System.out.println(cad);
 				
 				abb.add(cad);
 				
@@ -72,8 +77,8 @@ public class DAOCandidato {
 	
 	public static ArvoreBinariaDeBusca<Candidato> lerArquivos() {
 		ArvoreBinariaDeBusca<Candidato> ab = new ArvoreBinariaDeBusca<Candidato>();
-		DAOCandidato.lerArquivo("candidato//candidato.txt",ab);
-		DAOCandidato.lerArquivo("candidato//presidente.txt",ab);
+		DAOCandidato.lerArquivo("candidatos//candidato.txt",ab);
+//		DAOCandidato.lerArquivo("candidatos//presidente.txt",ab);
 		return ab;
 	}
 }

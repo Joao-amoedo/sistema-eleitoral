@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 public enum TipoCandidato {
-	FEDERAL((short) 0),REGIONAL((short)1),PRESIDENTE((short)2);
+	FEDERAL((short) 0),REGIONAL((short)1),PRESIDENCIAVEL((short)2);
 	
 	private short codigo;
 	

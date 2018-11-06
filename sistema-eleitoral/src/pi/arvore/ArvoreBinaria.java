@@ -175,7 +175,8 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 		Node<T> remover = raiz;
 
 		if (raiz.getDireita() != null)
-			remover = maiorEsquerda(raiz.getDireita());
+			if(raiz.getDireita().getConteudo() != null)
+				remover = maiorEsquerda(raiz.getDireita());
 
 		if (raiz.getDireita() == remover) {
 			raiz.setDireita(remover.getEsquerda());
@@ -230,7 +231,7 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 	 * @param raiz
 	 */
 	private void preOrdem(Node<T> raiz) {
-		if (raiz == null)
+		if (raiz == null || raiz.getConteudo() == null)
 			return;
 		System.out.println(raiz);
 		preOrdem(raiz.getEsquerda());
@@ -244,7 +245,7 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 	 * @param raiz
 	 */
 	private void emOrdem(Node<T> raiz) {
-		if (raiz == null)
+		if (raiz == null || raiz.getConteudo() == null)
 			return;
 		preOrdem(raiz.getEsquerda());
 		System.out.println(raiz);
@@ -258,7 +259,7 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 	 * @param raiz
 	 */
 	private void posOrdem(Node<T> raiz) {
-		if (raiz == null)
+		if (raiz == null || raiz.getConteudo() == null)
 			return;
 		preOrdem(raiz.getEsquerda());
 		preOrdem(raiz.getDireita());

@@ -7,7 +7,7 @@ public class Eleitor implements Elemento{
 	private int codigoMunicipio;
 	private Candidato candidatoFederal;
 	private Candidato candidatoRegional;
-	Candidato candidatoPresidenciavel;
+	private Candidato candidatoPresidenciavel;
 	private long sequencial;
 	private static long sequencialEleitores;
 
@@ -18,6 +18,7 @@ public class Eleitor implements Elemento{
 		this.codigoMunicipio = codigoMunicipio;
 		this.candidatoFederal = candidatoFederal;
 		this.candidatoPresidenciavel= candidatoPresidenciavel;
+		this.candidatoRegional = candidatoRegional;
 		this.candidatoFederal.acressentaVoto();
 		this.candidatoRegional.acressentaVoto();
 		this.candidatoPresidenciavel.acressentaVoto();
@@ -26,12 +27,13 @@ public class Eleitor implements Elemento{
 	}
 
 	public Eleitor(UF regiao,long cpf, long sequencial,  int codigoMunicipio, Candidato candidatoFederal,
-			Candidato candidatoRegional) {
+			Candidato candidatoRegional, Candidato candidatoPresidenciavel) {
 		this.cpf = cpf;
 		this.regiao = regiao;
 		this.codigoMunicipio = codigoMunicipio;
 		this.candidatoFederal = candidatoFederal;
 		this.candidatoPresidenciavel= candidatoPresidenciavel;
+		this.candidatoRegional = candidatoRegional;
 		this.candidatoFederal.acressentaVoto();
 		this.candidatoRegional.acressentaVoto();
 		this.candidatoPresidenciavel.acressentaVoto();
@@ -63,6 +65,9 @@ public class Eleitor implements Elemento{
 	public int getCodigoPartidoRegional() {
 		return candidatoRegional.getPartido().getCodigo();
 	}
+	public int getCodigoPartidoPresidenciavel() {
+		return candidatoPresidenciavel.getPartido().getCodigo();
+	}
 
 	public static long getSequencialEleitores() {
 		return sequencialEleitores;
@@ -81,8 +86,12 @@ public class Eleitor implements Elemento{
 		return "2;" + regiao + ";" + mascaraCPF() + ";" + sequencial + ";" + codigoMunicipio + ";"
 				+ candidatoFederal.getElemento() + ";" + 
 				this.getCodigoPartidoFederal() + ";"
-				+ candidatoRegional.getElemento() + ";" + 
-				this.getCodigoPartidoRegional();
+				+ candidatoRegional.getElemento() + ";" +
+				this.getCodigoPartidoRegional() + ";" +
+				candidatoPresidenciavel.getElemento() + ";" +
+				
+				
+				this.getCodigoPartidoPresidenciavel();
 	}
 	
 	private String mascaraCPF() {

@@ -147,15 +147,25 @@ public class  Node  <t extends Elemento>{
 	 * @return qtdFilhos
 	 */
 	public int getQuantidadeDeFilhos() {
-		if (direita != null && esquerda != null)
-			return 2;
-		else if (direita != null && esquerda == null)
-			return 1;
-		else if (direita == null && esquerda != null)
-			return -1;
-		else
+		if(direita == null && direita == null) {
 			return 0;
+		}
+		else if(direita != null && esquerda == null) {
+			return 1;
+		}else if(direita == null && esquerda != null) {
+			return -1;
+		}else {
+			if(direita.getConteudo() == null && esquerda.getConteudo() == null)
+				return 0;
+			else if(esquerda.getConteudo() == null && direita.getConteudo() != null)
+				return 1;
+			else if(direita.getConteudo() == null && esquerda.getConteudo() != null)
+				return -1;
+			else
+				return 2;
+		}
 	}
+			
 
 	public Cor getCor() {
 		return cor;
