@@ -8,7 +8,11 @@ public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinaria
 	public ArvoreBalanceada(T elemento) {
 		super(elemento);
 	}
-
+	
+	public ArvoreBalanceada() {
+		super();
+		
+	}
 	protected Node<T> RSE(Node<T> raiz) {
 		return null;
 	}
