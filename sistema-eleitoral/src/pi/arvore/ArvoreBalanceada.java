@@ -16,16 +16,16 @@ public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinaria
 	protected Node<T> RSE(Node<T> raiz) {
 		
 		Node<T> aux = raiz.getDireita();
+		raiz.setDireita(aux.getEsquerda());
 		aux.setEsquerda(raiz);
-		raiz.setDireita(null);
 		return aux;
 	}
 	
 	
 	public Node<T> RSD(Node<T> raiz) {
 		Node<T> aux = raiz.getEsquerda();
-		aux.setDireita(raiz);
-		raiz.setEsquerda(null);		
+		raiz.setEsquerda(aux.getDireita());	
+		aux.setDireita(raiz);			
 		return aux;
 
 	}
