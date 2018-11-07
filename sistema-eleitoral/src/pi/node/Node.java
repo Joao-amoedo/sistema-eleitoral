@@ -13,9 +13,9 @@ import pi.model.Elemento;
 @SuppressWarnings("hiding")
 public class  Node  <t extends Elemento>{
 
-	private Node<t> direita;
+	public Node<t> direita;
 
-	private Node<t> esquerda;
+	public Node<t> esquerda;
 
 	private Node<t> pai = null;
 	

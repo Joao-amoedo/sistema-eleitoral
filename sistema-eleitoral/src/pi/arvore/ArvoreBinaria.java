@@ -13,7 +13,7 @@ import pi.node.Node;
 
 public class ArvoreBinaria<T extends Elemento> implements Arvore {
 
-	protected Node<T> raiz;
+	public Node<T> raiz;
 
 	/**
 	 * True para caso vá gravar no arquivo False para caso não vá gravar no arquivo
@@ -247,9 +247,9 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 	private void emOrdem(Node<T> raiz) {
 		if (raiz == null || raiz.getConteudo() == null)
 			return;
-		preOrdem(raiz.getEsquerda());
-		System.out.println(raiz);
-		preOrdem(raiz.getDireita());
+		emOrdem(raiz.getEsquerda());
+		System.out.println(raiz.getElemento());
+		emOrdem(raiz.getDireita());
 
 	}
 

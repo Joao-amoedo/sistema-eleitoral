@@ -80,17 +80,12 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			throw new IllegalArgumentException("Elemento não encontrado");
 		else if (raiz.getElemento() == elemento) {
 			Node<T> remove = verificaTipoRemocao(raiz);
+			int filhos = raiz.getQuantidadeDeFilhos();
+			definePai(raiz, filhos, remove);
 			if (remove != null) {
 				remove.setPai(pai);
 			}
-//			if(remove.getQuantidadeDeFilhos() == -1)
-//				remove.getEsquerda().setPai(remove);
-//			else if(remove.getQuantidadeDeFilhos() == 1)
-//				remove.getDireita().setPai(remove);
-//			else if(remove.getQuantidadeDeFilhos() == 2) {
-//				remove.getDireita().setPai(remove);
-//				remove.getEsquerda().setPai(remove);
-//			}
+
 			return remove;
 		} else if (raiz.getElemento() < elemento) {
 			raiz.setDireita(remove(raiz.getDireita(), elemento));
@@ -98,6 +93,17 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			raiz.setEsquerda(remove(raiz.getEsquerda(), elemento));
 		}
 		return raiz;
+	}
+
+	private void definePai(Node<T> raiz, int filhos, Node<T> remove) {
+		if (filhos == 1)
+			raiz.getDireita().setPai(remove);
+		else if (filhos == -1)
+			raiz.getEsquerda().setPai(remove);
+		else if (filhos == 2) {
+			raiz.getDireita().setPai(remove);
+			raiz.getEsquerda().setPai(remove);
+		}
 	}
 
 }
