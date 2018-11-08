@@ -7,6 +7,7 @@ import java.util.OptionalLong;
 
 import pi.DAO.DAOCandidato;
 import pi.DAO.DAOEleitor;
+import pi.arvore.ArvoreAVL;
 import pi.arvore.ArvoreBinaria;
 import pi.arvore.ArvoreBinariaDeBusca;
 import pi.arvore.ArvoreRubroNegra;
@@ -20,7 +21,7 @@ import pi.model.cpf.CPF;
 public class Teste {
 	public static void main(String[] args) {
 		
-		ArvoreRubroNegra<Eleitor> ab = new ArvoreRubroNegra<Eleitor>();
+		ArvoreAVL<Eleitor> ab = new ArvoreAVL<Eleitor>();
 
 		Candidato cand1 = new Candidato("1", Partido.PT, TipoCandidato.PRESIDENCIAVEL);
 		Candidato cand2 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
@@ -29,7 +30,7 @@ public class Teste {
 		Eleitor el1 = new Eleitor(UF.MA, 10, 0, cand1, cand2, cand3);
 		Eleitor el2 = new Eleitor(UF.MA, 5, 123, cand1, cand2, cand3);
 		Eleitor el3 = new Eleitor(UF.MA, 3, 123, cand1, cand2, cand3);
-		Eleitor el4 = new Eleitor(UF.MA, 4, 123, cand1, cand2, cand3);
+		Eleitor el4 = new Eleitor(UF.MA, 50, 123, cand1, cand2, cand3);
 		Eleitor el5 = new Eleitor(UF.MA, -100, 0, cand1, cand2, cand3);
 		Eleitor el6 = new Eleitor(UF.MA, -10, 0, cand1, cand2, cand3);
 		Eleitor el7 = new Eleitor(UF.MA, -5, 0, cand1, cand2, cand3);
@@ -45,14 +46,9 @@ public class Teste {
 		ab.add(el1);
 		ab.add(el2);
 		ab.add(el3);
-		ab.emOrdem();
 		
-		ab.raiz = ab.RSD(ab.raiz);
-		
-		System.out.println(ab.raiz.esquerda.getElemento());
-		
-//		ab.emOrdem();
-		
+
+
 		
 		
 		
