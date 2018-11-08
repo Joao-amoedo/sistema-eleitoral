@@ -89,17 +89,25 @@ public class  Node  <t extends Elemento>{
 	 */
 	public void setFat() {
 		int qtd = this.getQuantidadeDeFilhos();
+		
 		if (qtd == 0) {
 			fat = 0;
 		} else if (qtd == 1) {
-			fat = direita.getAltura();
+			fat = -direita.getAltura();
 		} else if (qtd == -1) {
 			fat = esquerda.getAltura();
 		} else {
-			fat = direita.getAltura() - esquerda.getAltura();
+			fat = esquerda.getAltura() - direita.getAltura();
 		}
 	}
-
+	
+	/**
+	 * Define a altura e o fator de balanceamento
+	 */
+	public void setAlturaEFat() {
+		this.setAltura();
+		this.setFat();
+	}
 	/**
 	 * Define a altura do Node
 	 */
@@ -147,7 +155,7 @@ public class  Node  <t extends Elemento>{
 	 * @return qtdFilhos
 	 */
 	public int getQuantidadeDeFilhos() {
-		if(direita == null && direita == null) {
+		if(direita == null && esquerda == null) {
 			return 0;
 		}
 		else if(direita != null && esquerda == null) {
@@ -188,6 +196,10 @@ public class  Node  <t extends Elemento>{
 	public Node<t> getPai() {
 		
 		return pai;
+	}
+
+	public int getFat() {
+		return this.fat;
 	}
 	
 	

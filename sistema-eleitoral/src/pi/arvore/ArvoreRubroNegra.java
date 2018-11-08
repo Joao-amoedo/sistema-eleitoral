@@ -30,27 +30,56 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 		}
 	}
 
-	private Cor verificaCorTio(Node<T> raiz) {
-		Node<T> pai = raiz.getPai();
-		if (pai.getDireita() == raiz)
-			return pai.getEsquerda().getCor();
-		else
-			return pai.getDireita().getCor();
+	private void verificaCor(Node<T> raiz) {
+
+		Cor raizCor = raiz.getCor();
+
+		// Primeiro Caso
+		if (raizCor == Cor.PRETO) {
+			// Faz nada
+		} else if (raizCor == Cor.VERMELHO) {
+			Node<T> tio = getTio(raiz);
+			// Segundo caso
+			// Muda a cor do node do tio e da raiz em quetão para preto
+			if (tio.getCor() == Cor.VERMELHO) {
+				raiz.setCor(Cor.PRETO);
+				tio.setCor(Cor.PRETO);
+				// Terceiro caso.. rotações..
+			} else {
+				Node<T> node = verificaTipoBalanceamento(raiz);
+			}
+		}
 	}
 
-	private void verificaBalanceamento(Node<T> raiz) {
-
-		if (raiz.getCor() == raiz.getEsquerda().getCor()) {
-			Cor corTio = verificaCorTio(raiz);
-		} else if (raiz.getCor() == raiz.getDireita().getCor()) {
-			Cor verificaCorTio = verificaCorTio(raiz);
+	private Node<T> verificaTipoBalanceamento(Node<T> raiz) {
+		if (raiz == raiz.getPai().getEsquerda()) {
+			if (raiz.getEsquerda().getCor() == Cor.VERMELHO)
+				RSD(raiz);
+			else
+				RDD(raiz);
 		}
+		else {
+			if(raiz.getDireita().getCor() == Cor.VERMELHO)
+				RSE(raiz);
+			else
+				RDE(raiz);
+		}
+		return null;
+	}
 
+	private Node<T> getTio(Node<T> raiz) {
+		Node<T> pai = raiz.getPai();
+		if (pai.getDireita() == raiz)
+			return pai.getEsquerda();
+		else
+			return pai.getDireita();
 	}
 
 	private Node<T> add(Node<T> raiz, Node<T> pai, Node<T> novo) {
 		if (raiz == null || raiz == pivo) {
 			novo.setPai(pai);
+			if (this.raiz == null)
+				novo.setCor(Cor.PRETO);
 			return novo;
 		} else if (raiz.getElemento() < novo.getElemento()) {
 			raiz.setDireita(add(raiz.getDireita(), raiz, novo));
@@ -59,7 +88,7 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 		} else {
 			throw new IllegalArgumentException("Não pode haver elementos repetidos!");
 		}
-
+		verificaCor(raiz);
 		return raiz;
 
 	}
