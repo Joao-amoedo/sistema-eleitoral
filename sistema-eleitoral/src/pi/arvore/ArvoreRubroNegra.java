@@ -30,7 +30,7 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 		}
 	}
 
-	private void verificaCor(Node<T> raiz) {
+	public Node<T> verificaCor(Node<T> raiz) {
 
 		Cor raizCor = raiz.getCor();
 
@@ -46,25 +46,27 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 				tio.setCor(Cor.PRETO);
 				// Terceiro caso.. rotações..
 			} else {
-				Node<T> node = verificaTipoBalanceamento(raiz);
+				return verificaTipoBalanceamento(raiz);
 			}
 		}
+		return raiz;
 	}
 
 	private Node<T> verificaTipoBalanceamento(Node<T> raiz) {
-		if (raiz == raiz.getPai().getEsquerda()) {
-			if (raiz.getEsquerda().getCor() == Cor.VERMELHO)
-				RSD(raiz);
-			else
-				RDD(raiz);
+		Node<T> pai = raiz.getPai();
+		//Caso 3a rotação direita simples
+		if(pai.getEsquerda() == raiz) {
+			if(raiz.getEsquerda().getCor() == Cor.VERMELHO) {
+				return RSD(raiz);
+			}else {
+				return RDD(raiz);
+			}
+		}else {
+			if(raiz.getDireita().getCor() == Cor.VERMELHO) {
+				return RSE(raiz);
+			}
+				return RDE(raiz);
 		}
-		else {
-			if(raiz.getDireita().getCor() == Cor.VERMELHO)
-				RSE(raiz);
-			else
-				RDE(raiz);
-		}
-		return null;
 	}
 
 	private Node<T> getTio(Node<T> raiz) {
@@ -88,8 +90,10 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 		} else {
 			throw new IllegalArgumentException("Não pode haver elementos repetidos!");
 		}
-		verificaCor(raiz);
-		return raiz;
+
+		System.out.println(raiz.getEsquerda().getCor());
+		return verificaCor(raiz);
+//		return raiz;
 
 	}
 
