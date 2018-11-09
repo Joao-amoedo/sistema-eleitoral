@@ -17,33 +17,56 @@ public class ArvoreAVL<T extends Elemento> extends ArvoreBalanceada<T> {
 		Node<T> add = super.add(raiz, novo);
 
 		add.setAlturaEFat();
+		verificaFat(add.getFat());
+//		return add;
+		
+		return verificaFatRetorno(add);
+	}
+
+	private Node<T> verificaFatRetorno(Node<T> add) {
 		if (verificaFat(add.getFat()))
-			return add;
-		else
 			return verificaBalanceamento(add);
+		else
+			return add;
 	}
 
 	public Node<T> verificaBalanceamento(Node<T> add) {
 		int fat = add.getFat();
-		System.out.println(add.getFat());
+		Node<T> retorno;
 		if (fat < -1) {
-			if (add.getDireita().getFat() < 0)
-				return RSE(add);
+			if (add.getDireita().getFat() > 0)
+				retorno = RDE(add);
 			else
-				return RDE(add);
+				retorno = RSE(add);
 		} else {
-			if(add.getEsquerda().getFat() < 0)
-			return RSD(add);
-			else
-				return RDE(add);
+			if (add.getEsquerda().getFat() < 0)
+				retorno = RDD(add);
+			else{
+				retorno = RSD(add);
+			}
 		}
+		setFatFilhosRetorno(retorno);
+		return verificaFatRetorno(retorno);
+	}
+
+	private void setFatFilhosRetorno(Node<T> retorno) {
+		int filhos = retorno.getQuantidadeDeFilhos();
+		if(filhos == -1)
+			retorno.getEsquerda().setAlturaEFat();
+		else if(filhos == 1)
+			retorno.getDireita().setAlturaEFat();
+		else if(filhos == 2) {
+			retorno.getDireita().setAlturaEFat();
+			retorno.getEsquerda().setAlturaEFat();
+		}
+		retorno.setAlturaEFat();
 	}
 
 	private boolean verificaFat(int fat) {
-		if (fat > 1 || fat < 1)
-			return false;
-		else
+		if (fat > 1 || fat < -1) {
 			return true;
+		}
+		else
+			return false;
 	}
-
 }
