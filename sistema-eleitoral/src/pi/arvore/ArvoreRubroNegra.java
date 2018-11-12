@@ -30,53 +30,6 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 		}
 	}
 
-	public Node<T> verificaCor(Node<T> raiz) {
-
-		Cor raizCor = raiz.getCor();
-
-		// Primeiro Caso
-		if (raizCor == Cor.PRETO) {
-			// Faz nada
-		} else if (raizCor == Cor.VERMELHO) {
-			Node<T> tio = getTio(raiz);
-			// Segundo caso
-			// Muda a cor do node do tio e da raiz em quetão para preto
-			if (tio.getCor() == Cor.VERMELHO) {
-				raiz.setCor(Cor.PRETO);
-				tio.setCor(Cor.PRETO);
-				// Terceiro caso.. rotações..
-			} else {
-				return verificaTipoBalanceamento(raiz);
-			}
-		}
-		return raiz;
-	}
-
-	private Node<T> verificaTipoBalanceamento(Node<T> raiz) {
-		Node<T> pai = raiz.getPai();
-		//Caso 3a rotação direita simples
-		if(pai.getEsquerda() == raiz) {
-			if(raiz.getEsquerda().getCor() == Cor.VERMELHO) {
-				return RSD(raiz);
-			}else {
-				return RDD(raiz);
-			}
-		}else {
-			if(raiz.getDireita().getCor() == Cor.VERMELHO) {
-				return RSE(raiz);
-			}
-				return RDE(raiz);
-		}
-	}
-
-	private Node<T> getTio(Node<T> raiz) {
-		Node<T> pai = raiz.getPai();
-		if (pai.getDireita() == raiz)
-			return pai.getEsquerda();
-		else
-			return pai.getDireita();
-	}
-
 	private Node<T> add(Node<T> raiz, Node<T> pai, Node<T> novo) {
 		if (raiz == null || raiz == pivo) {
 			novo.setPai(pai);
@@ -91,10 +44,50 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			throw new IllegalArgumentException("Não pode haver elementos repetidos!");
 		}
 
-		System.out.println(raiz.getEsquerda().getCor());
 		return verificaCor(raiz);
 //		return raiz;
 
+	}
+
+	public Node<T> verificaCor(Node<T> raiz) {
+		Cor corRaiz = raiz.getCor();
+		Cor corDir = raiz.getDireita().getCor();
+		Cor corEsq = raiz.getEsquerda().getCor();
+
+		if (corRaiz == Cor.VERMELHO) {
+			if (corDir == Cor.VERMELHO) {
+				return verificaTipoBalanceamento(raiz);
+			} else if (corEsq == Cor.VERMELHO) {
+				return verificaTipoBalanceamento(raiz);
+			}
+		}
+
+		return raiz;
+	}
+
+	private Node<T> verificaTipoBalanceamento(Node<T> raiz) {
+		Node<T> pai = raiz.getPai();
+		// Caso 3a rotação direita simples
+		if (pai.getEsquerda() == raiz) {
+			if (raiz.getEsquerda().getCor() == Cor.VERMELHO) {
+				return RSD(raiz);
+			} else {
+				return RDD(raiz);
+			}
+		} else {
+			if (raiz.getDireita().getCor() == Cor.VERMELHO) {
+				return RSE(raiz);
+			}
+			return RDE(raiz);
+		}
+	}
+
+	private Node<T> getTio(Node<T> raiz) {
+		Node<T> pai = raiz.getPai();
+		if (pai.getDireita() == raiz)
+			return pai.getEsquerda();
+		else
+			return pai.getDireita();
 	}
 
 	public boolean remove(long elemento) {
