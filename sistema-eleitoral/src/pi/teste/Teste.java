@@ -33,25 +33,40 @@ public class Teste {
 		abCand.add(cand1);
 		abCand.add(cand2);
 		abCand.add(cand3);
+		
+		
+		
 		Random rand = new Random();
-		
-		long inicioBinaria = System.currentTimeMillis();
-		long qtd = 10000000;
-		for(long x = 0; x <= qtd; x++) {
-			ab1.add(new Eleitor(UF.MA,rand.nextLong(),0,cand1,cand2,cand3));
-		}
-		long fimBinaria = System.currentTimeMillis();
-		ab1 = null;
-		
-		long inicioAVL= System.currentTimeMillis();
-		for(long x = 0; x <= qtd ; x++) {
-			ab2.add(new Eleitor(UF.MA,rand.nextLong(),0,cand1,cand2,cand3));
-		}
-		long fimAVL = System.currentTimeMillis();
-		System.out.println(String.format("Tempo da binaria: %d", fimBinaria-inicioBinaria ));;
-		System.out.println(String.format("Tempo da AVL: %d", fimAVL-inicioAVL));
 
+		long qtd = 100000;
+		for (long x = 0; x <= qtd; x++) {
+			ab2.add(new Eleitor(UF.MA, x, 0, cand1, cand2, cand3));
+		}
 		
+		long qtdBuscas = 10000;
+		long inicioBusca = System.currentTimeMillis();
+		for (int x = 0; x < qtdBuscas; x++) {
+			ab2.buscaLargura(x);
+		}
+		long fimBusca = System.currentTimeMillis();
+		System.out.println("Busca por largura: " + ((double)(fimBusca - inicioBusca) / 1000) + " Segundos");
+
+		inicioBusca = System.currentTimeMillis();
+		for (int x = 0; x < qtdBuscas; x++) {
+			ab2.buscaBinaria(x);
+		}
+		fimBusca = System.currentTimeMillis();
+
+		System.out.println("Busca Binaria: " + ((double)(fimBusca - inicioBusca) / 1000) + " Segundos");
+		inicioBusca = System.currentTimeMillis();
+		for (int x = 0; x < qtdBuscas; x++) {
+			ab2.buscaProfundidade(x);
+		}
+		fimBusca = System.currentTimeMillis();
+		
+//		System.out.println(String.format("Busca Binaria: %.10f", ((double)(fimBusca - inicioBusca) / 1000)));
+		System.out.println("Busca Profundidade: " + ((double)(fimBusca - inicioBusca) / 1000) + " Segundos");
+		System.out.println("Quantidade de buscas realizadas: " + qtdBuscas);
+		System.out.println("Quantidade de elementos na árvore: " + qtd);
 	}
-
 }
