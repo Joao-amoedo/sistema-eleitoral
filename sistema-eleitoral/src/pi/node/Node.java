@@ -11,14 +11,14 @@ import pi.model.Elemento;
  *
  */
 @SuppressWarnings("hiding")
-public class  Node  <t extends Elemento>{
+public class Node<t extends Elemento> {
 
 	public Node<t> direita;
 
 	public Node<t> esquerda;
 
 	private Node<t> pai = null;
-	
+
 	private Cor cor;
 
 	private t conteudo;
@@ -89,7 +89,7 @@ public class  Node  <t extends Elemento>{
 	 */
 	public void setFat() {
 		int qtd = this.getQuantidadeDeFilhos();
-		
+
 		if (qtd == 0) {
 			fat = 0;
 		} else if (qtd == 1) {
@@ -100,7 +100,7 @@ public class  Node  <t extends Elemento>{
 			fat = esquerda.getAltura() - direita.getAltura();
 		}
 	}
-	
+
 	/**
 	 * Define a altura e o fator de balanceamento
 	 */
@@ -108,13 +108,14 @@ public class  Node  <t extends Elemento>{
 		this.setAltura();
 		this.setFat();
 	}
+
 	/**
 	 * Define a altura do Node
 	 */
 
 	public void setAltura() {
 		int qtd = this.getQuantidadeDeFilhos();
-		
+
 		if (qtd == 0)
 			altura = 1;
 		else if (qtd == 1)
@@ -129,11 +130,11 @@ public class  Node  <t extends Elemento>{
 		}
 
 	}
-	
+
 	public t getConteudo() {
 		return (t) this.conteudo;
 	}
-	
+
 	public int getAltura() {
 		return this.altura;
 	}
@@ -155,25 +156,23 @@ public class  Node  <t extends Elemento>{
 	 * @return qtdFilhos
 	 */
 	public int getQuantidadeDeFilhos() {
-		if(direita == null && esquerda == null) {
+		if (direita == null && esquerda == null) {
 			return 0;
-		}
-		else if(direita != null && esquerda == null) {
+		} else if (direita != null && esquerda == null) {
 			return 1;
-		}else if(direita == null && esquerda != null) {
+		} else if (direita == null && esquerda != null) {
 			return -1;
-		}else {
-			if(direita.getConteudo() == null && esquerda.getConteudo() == null)
+		} else {
+			if (direita.getConteudo() == null && esquerda.getConteudo() == null)
 				return 0;
-			else if(esquerda.getConteudo() == null && direita.getConteudo() != null)
+			else if (esquerda.getConteudo() == null && direita.getConteudo() != null)
 				return 1;
-			else if(direita.getConteudo() == null && esquerda.getConteudo() != null)
+			else if (direita.getConteudo() == null && esquerda.getConteudo() != null)
 				return -1;
 			else
 				return 2;
 		}
 	}
-			
 
 	public Cor getCor() {
 		return cor;
@@ -190,18 +189,16 @@ public class  Node  <t extends Elemento>{
 
 	public void setPai(Node<t> pai) {
 		this.pai = pai;
-		
+
 	}
 
 	public Node<t> getPai() {
-		
+
 		return pai;
 	}
 
 	public int getFat() {
 		return this.fat;
 	}
-	
-	
 
 }

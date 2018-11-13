@@ -53,17 +53,18 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 			}
 		}
 	}
+
 	public boolean add(Elemento elemento, boolean grava) {
 		Node novo = new Node(elemento);
-		boolean add = add(elemento);		
-		if(add && grava)
+		boolean add = add(elemento);
+		if (add && grava)
 			gravaArquivo(novo);
-		if(add)
+		if (add)
 			return true;
 		else
 			return false;
 	}
-	
+
 	@Override
 	public boolean add(Elemento elemento) {
 		Node<T> novo = new Node<T>((T) elemento);
@@ -72,6 +73,36 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 			return true;
 		} catch (IllegalArgumentException ex) {
 			return false;
+		}
+	}
+
+	public boolean add(Elemento elemento, boolean bol, boolean bol2) {
+		Node<T> novo = new Node<T>((T) elemento);
+		if (this.raiz == null) {
+			raiz = novo;
+			return true;
+		}
+		else {
+			Node<T> aux = raiz;
+			while (true) {
+				if (novo.getElemento() < aux.getElemento()) {
+					if (aux.getEsquerda() != null)
+						aux = aux.getEsquerda();
+					else{
+						aux.setEsquerda(novo);
+						return true;
+					}
+				}else if(novo.getElemento() > aux.getElemento()) {
+					if(aux.getDireita() != null)
+						aux = aux.getDireita();
+					else {
+						aux.setDireita(novo);
+						return true;
+					}
+				}else {
+					return false;
+				}
+			}
 		}
 	}
 
@@ -86,36 +117,33 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 			raiz.setEsquerda(add(raiz.getEsquerda(), novo));
 		return raiz;
 	}
-	
-	
+
 	public boolean remove(long elemento) {
-		try{
-			raiz = remove(raiz,elemento);
+		try {
+			raiz = remove(raiz, elemento);
 			return true;
-		}catch(IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex) {
 			return false;
 		}
 	}
-	
-	protected Node<T> remove(Node<T> raiz,long elemento){
-		if(raiz.getElemento() == elemento)
+
+	protected Node<T> remove(Node<T> raiz, long elemento) {
+		if (raiz.getElemento() == elemento)
 			return verificaTipoRemocao(raiz);
-		else if(raiz.getElemento() < elemento) {
-			if(raiz.getDireita() != null)
-				raiz.setDireita(remove(raiz.getDireita(),elemento));
+		else if (raiz.getElemento() < elemento) {
+			if (raiz.getDireita() != null)
+				raiz.setDireita(remove(raiz.getDireita(), elemento));
 			else
 				throw new IllegalArgumentException("Elemento não encontrado");
-		}
-		else{
-			if(raiz.getEsquerda() != null)
-				raiz.setEsquerda(remove(raiz.getEsquerda(),elemento));
+		} else {
+			if (raiz.getEsquerda() != null)
+				raiz.setEsquerda(remove(raiz.getEsquerda(), elemento));
 			else
 				throw new IllegalArgumentException("Elemento não encontrado");
 		}
 		return raiz;
 	}
 
-	
 	protected Node<T> verificaTipoRemocao(Node<T> raiz) {
 		int qtd = raiz.getQuantidadeDeFilhos();
 		if (qtd == 0)
@@ -175,7 +203,7 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 		Node<T> remover = raiz;
 
 		if (raiz.getDireita() != null)
-			if(raiz.getDireita().getConteudo() != null)
+			if (raiz.getDireita().getConteudo() != null)
 				remover = maiorEsquerda(raiz.getDireita());
 
 		if (raiz.getDireita() == remover) {
