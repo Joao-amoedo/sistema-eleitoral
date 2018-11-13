@@ -44,5 +44,4 @@ public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinaria
 		raiz.setEsquerda(RSE(raiz.getEsquerda()));
 		return RSD(raiz);
 	}
-
 }

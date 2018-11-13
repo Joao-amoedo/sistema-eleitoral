@@ -19,7 +19,7 @@ public class ArvoreAVL<T extends Elemento> extends ArvoreBalanceada<T> {
 		add.setAlturaEFat();
 		verificaFat(add.getFat());
 //		return add;
-		
+
 		return verificaFatRetorno(add);
 	}
 
@@ -41,7 +41,7 @@ public class ArvoreAVL<T extends Elemento> extends ArvoreBalanceada<T> {
 		} else {
 			if (add.getEsquerda().getFat() < 0)
 				retorno = RDD(add);
-			else{
+			else {
 				retorno = RSD(add);
 			}
 		}
@@ -51,11 +51,11 @@ public class ArvoreAVL<T extends Elemento> extends ArvoreBalanceada<T> {
 
 	private void setFatFilhosRetorno(Node<T> retorno) {
 		int filhos = retorno.getQuantidadeDeFilhos();
-		if(filhos == -1)
+		if (filhos == -1)
 			retorno.getEsquerda().setAlturaEFat();
-		else if(filhos == 1)
+		else if (filhos == 1)
 			retorno.getDireita().setAlturaEFat();
-		else if(filhos == 2) {
+		else if (filhos == 2) {
 			retorno.getDireita().setAlturaEFat();
 			retorno.getEsquerda().setAlturaEFat();
 		}
@@ -65,8 +65,18 @@ public class ArvoreAVL<T extends Elemento> extends ArvoreBalanceada<T> {
 	private boolean verificaFat(int fat) {
 		if (fat > 1 || fat < -1) {
 			return true;
-		}
-		else
+		} else
 			return false;
+	}
+
+	protected Node<T> remove(Node<T> raiz, long elemento) {
+		Node<T> remover = super.remove(raiz,elemento);
+		remover.setAlturaEFat();
+		if(verificaFat(remover.getFat())){
+		return verificaBalanceamento(remover);
+		}
+		else {
+			return remover;
+		}
 	}
 }

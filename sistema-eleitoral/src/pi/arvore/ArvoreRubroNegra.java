@@ -131,5 +131,4 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			raiz.getEsquerda().setPai(remove);
 		}
 	}
-
 }
