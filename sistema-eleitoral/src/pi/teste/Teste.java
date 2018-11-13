@@ -22,7 +22,7 @@ import pi.model.cpf.CPF;
 public class Teste {
 	public static void main(String[] args) {
 
-		ArvoreBinaria<Eleitor> ab1 = new ArvoreBinaria<Eleitor>();
+		ArvoreAVL<Eleitor> ab1 = new ArvoreAVL<Eleitor>();
 		ArvoreAVL<Eleitor> ab2 = new ArvoreAVL<Eleitor>();
 
 		Candidato cand1 = new Candidato("1", Partido.PT, TipoCandidato.PRESIDENCIAVEL);
@@ -38,7 +38,7 @@ public class Teste {
 		
 		Random rand = new Random();
 
-		long qtd = 100000;
+		long qtd = 1000000;
 		for (long x = 0; x <= qtd; x++) {
 			ab2.add(new Eleitor(UF.MA, x, 0, cand1, cand2, cand3));
 		}
