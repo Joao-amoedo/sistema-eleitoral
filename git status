@@ -1,0 +1,27 @@
+[33mf2b2115[m[33m ([m[1;36mHEAD -> [m[1;32marvore_binaria[m[33m)[m Acrescentada o método de remover da ArvoreAVL
+[33mb7e6708[m[33m ([m[1;31morigin/arvore_binaria[m[33m)[m Criando busca por largura e profundidade
+[33mdbb487b[m Terminando o método de adicionar da AVL
+[33mf9a023a[m Fazendo o balanceamento
+[33m9f4ed4f[m Update ArvoreBalanceada.java
+[33m31ba593[m Adicionando o método de RSD e RSE, arrumando a alocação do pai na remoção, deixando a raiz e outros atributos como publicos (alterar depois)
+[33m8514724[m Arrumando um monte de coisa
+[33mde8c4bd[m Arrumando ainda mais a classe DAO e adicionando o método getPartidoAleatorio na classe Partido
+[33m197757a[m Adicionando o getTipoCandidatoAleatorio em TipoCandidato
+[33m06f5eed[m Continuando a rubro negra
+[33m155c864[m Adicionando o arquivo presidenciavel
+[33m72585e6[m Alterando a remoção e adição na árvore usando exceção Ainda não está pronto, foi removido o código de gravar no arquivo, ainda será reposto.
+[33meb733a3[m Adicionando metodo de votar
+[33m8c9570b[m Aperfeiçoando DAO
+[33m9e113cb[m Arrumando o progresso do DAO
+[33mfcd4f90[m Criando gerador de CPF
+[33m04ef6b5[m Criando o DAO
+[33m66eb0d1[m Adicionando Sysout
+[33m00bab26[m Atualizando Os Requisitos do Trabalho
+[33m6561121[m Adicionando requesitos para o trabalho de PI
+[33m6797f10[m Removendo o "Ola jeff"
+[33m1fbfdf1[m Update Teste.java
+[33m601a048[m Terminando os métodos da árvore Binária e adicionando comentários
+[33m4b7d624[m Testando commit na branch arvore-binária
+[33m9ad0056[m[33m ([m[1;31morigin/master[m[33m)[m Testando o comit com o Jeff
+[33m761ca52[m Criando o projeto
+[33m6a04900[m Initial commit

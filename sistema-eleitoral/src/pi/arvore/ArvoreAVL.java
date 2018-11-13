@@ -70,12 +70,11 @@ public class ArvoreAVL<T extends Elemento> extends ArvoreBalanceada<T> {
 	}
 
 	protected Node<T> remove(Node<T> raiz, long elemento) {
-		Node<T> remover = super.remove(raiz,elemento);
+		Node<T> remover = super.remove(raiz, elemento);
 		remover.setAlturaEFat();
-		if(verificaFat(remover.getFat())){
-		return verificaBalanceamento(remover);
-		}
-		else {
+		if (verificaFat(remover.getFat())) {
+			return verificaBalanceamento(remover);
+		} else {
 			return remover;
 		}
 	}
