@@ -301,12 +301,12 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 	}
 
 	private List<T> toList(List<T> lista, Node<T> raiz) {
-		if (raiz.getEsquerda() != null)
+		if (raiz.getEsquerda() != null && raiz.getEsquerda().getConteudo() != null)
 			toList(lista, raiz.getEsquerda());
 
 		lista.add(raiz.getConteudo());
 
-		if (raiz.getDireita() != null)
+		if (raiz.getDireita() != null && raiz.getDireita().getConteudo() != null)
 			toList(lista, raiz.getDireita());
 		return lista;
 	}
