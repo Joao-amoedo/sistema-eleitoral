@@ -17,7 +17,7 @@ public class Node<t extends Elemento> {
 
 	public Node<t> esquerda;
 
-	private Node<t> pai = null;
+	public Node<t> pai = null;
 
 	private Cor cor;
 

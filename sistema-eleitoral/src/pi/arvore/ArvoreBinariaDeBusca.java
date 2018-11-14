@@ -2,6 +2,7 @@ package pi.arvore;
 
 import java.util.Stack;
 
+import pi.arvore.exception.FoundNodeException;
 import pi.model.Elemento;
 import pi.node.Node;
 
