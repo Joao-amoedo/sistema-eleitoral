@@ -81,25 +81,24 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 		if (this.raiz == null) {
 			raiz = novo;
 			return true;
-		}
-		else {
+		} else {
 			Node<T> aux = raiz;
 			while (true) {
 				if (novo.getElemento() < aux.getElemento()) {
 					if (aux.getEsquerda() != null)
 						aux = aux.getEsquerda();
-					else{
+					else {
 						aux.setEsquerda(novo);
 						return true;
 					}
-				}else if(novo.getElemento() > aux.getElemento()) {
-					if(aux.getDireita() != null)
+				} else if (novo.getElemento() > aux.getElemento()) {
+					if (aux.getDireita() != null)
 						aux = aux.getDireita();
 					else {
 						aux.setDireita(novo);
 						return true;
 					}
-				}else {
+				} else {
 					return false;
 				}
 			}
@@ -276,7 +275,7 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 		if (raiz == null || raiz.getConteudo() == null)
 			return;
 		emOrdem(raiz.getEsquerda());
-		System.out.println(raiz.getElemento());
+		System.out.println("Elemento: " + raiz.getElemento() + " Cor: " + raiz.getCor());
 		emOrdem(raiz.getDireita());
 
 	}

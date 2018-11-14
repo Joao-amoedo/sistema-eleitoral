@@ -1,4 +1,4 @@
-package pi.arvore;
+package pi.arvore.exception;
 
 import pi.node.Node;
 
