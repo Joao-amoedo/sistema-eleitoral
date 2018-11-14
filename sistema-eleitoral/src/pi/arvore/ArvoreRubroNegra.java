@@ -43,104 +43,132 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 
 	private void add(Node<T> raiz, Node<T> pai, Node<T> novo) {
 		Stack<Node<T>> p1 = new Stack<Node<T>>();
+		p1.push(raiz);
 		Node<T> aux = raiz;
 		boolean add = false;
-		p1.push(aux);
 		while (!add) {
-			if (aux.getElemento() < novo.getElemento()) {
-				if (aux.getDireita() == pivo) {
-					aux.setDireita(novo);
-					novo.setPai(aux);
-					add = true;
+			if (aux == pivo) {
+				if (pai.getElemento() < novo.getElemento()) {
+					pai.setDireita(novo);
 				} else {
-					aux = aux.getDireita();
-					p1.push(aux);
+					pai.setEsquerda(novo);
 				}
+				add = true;
+				novo.setPai(pai);
+			} else if (aux.getElemento() < novo.getElemento()) {
+				p1.push(aux);
+				pai = aux;
+				aux = aux.getDireita();
 			} else if (aux.getElemento() > novo.getElemento()) {
-				if (aux.getEsquerda() == pivo) {
-					aux.setEsquerda(novo);
-					novo.setPai(aux);
-					add = true;
-				} else {
-					aux = aux.getEsquerda();
-					p1.push(aux);
-				}
-			} else {
+				p1.push(aux);
+				pai = aux;
+				aux = aux.getEsquerda();
+			} else
 				throw new ElementoRepetidoException();
-			}
 		}
-		boolean balanceia = false;
 		aux = null;
+		Node<T> auxPai = null;
+		boolean balanceia = false;
 		while (!p1.empty()) {
 			Node<T> pop = p1.pop();
 			if (balanceia) {
-				if (aux == pop) {
-					pop = verificaTipoBalanceamento(pop);
+				System.out.println("Tem que balancear");
+				if (auxPai.equals(pop)) {
+					Node<T> balanceado = verificaTipoBalanceamento(pop, aux, pop.getPai());
+					if (pop == this.raiz) {
+						this.raiz = balanceado;
+					} else {
+						Node<T> paiPop = pop.getPai();
+						if (paiPop.getDireita().equals(pop))
+							paiPop.setDireita(balanceado);
+						else
+							paiPop.setEsquerda(balanceado);
+					}
+					p1.pop();
 					aux = null;
+					auxPai = null;
 					balanceia = false;
 				}
-			}
-			if (pop != this.raiz) {
-				balanceia = verificaCor(pop);
-				if (balanceia)
-					aux = pop.getPai();
+			} else if (!pop.equals(this.raiz) && !pop.equals(auxPai)) {
+				if (verificaCor(pop)) {
+					aux = pop;
+					auxPai = aux.getPai();
+					balanceia = true;
+				}
 			}
 		}
 	}
 
 	public boolean verificaCor(Node<T> raiz) {
-		Node<T> tio = getTio(raiz);
-		Cor corRaiz = raiz.getCor();
-		Cor corDir = raiz.getDireita().getCor();
-		Cor corEsq = raiz.getEsquerda().getCor();
-		Cor corTio = tio.getCor();
-
-		if (corRaiz == Cor.VERMELHO) {
-			if (corDir == Cor.VERMELHO) {
-				if (corTio == Cor.VERMELHO) {
-					tio.setCor(Cor.PRETO);
-					raiz.setCor(Cor.PRETO);
-				} else
-					return true;
-			} else if (corEsq == Cor.VERMELHO) {
-				if (corTio == Cor.VERMELHO) {
-					tio.setCor(Cor.PRETO);
-					raiz.setCor(Cor.PRETO);
-				} else {
-					System.out.println("foi esse o caso");
-					return true;
-				}
+		Node<T> tio = this.getTio(raiz);
+		if (raiz.getCor() == Cor.PRETO)
+			return false;
+		else if (raiz.getCor() == Cor.VERMELHO
+				&& (raiz.getEsquerda().getCor() == Cor.VERMELHO || raiz.getDireita().getCor() == Cor.VERMELHO)) {
+			if (tio.getCor() == Cor.VERMELHO) {
+				tio.setCor(Cor.PRETO);
+				raiz.setCor(Cor.PRETO);
+				return false;
+			} else {
+				// tem que balancear
+				return true;
 			}
-		} else {
-			// Faz nada
-		}
-		return false;
+		} else
+			return false;
 	}
 
-	private Node<T> verificaTipoBalanceamento(Node<T> raiz) {
-		Node<T> pai = raiz.getPai();
-		// Caso 3a rotação direita simples
-		
-			if (raiz.getEsquerda().getCor() == Cor.VERMELHO) {
-				return RSD(raiz);
+	private Node<T> verificaTipoBalanceamento(Node<T> raiz, Node<T> filho, Node<T> pai) {
+		Node<T> rotacao = null;
+		if (raiz.getEsquerda() == filho) {
+			if (filho.getEsquerda().getCor() == Cor.VERMELHO) {
+				rotacao = RSD(raiz);
+
 			} else {
-				return RDD(raiz);
-			
-		} else {
-			if (raiz.getDireita().getCor() == Cor.VERMELHO) {
-				return RSE(raiz);
+				Node<T> rse = RSE(raiz.getEsquerda());
+
+				rotacao = RDD(raiz);
 			}
-			return RDE(raiz);
+		} else {
+			if (filho.getDireita().getCor() == Cor.VERMELHO) {
+				rotacao = RSE(raiz);
+
+			} else {
+				Node<T> rsd = RSD(raiz.getDireita());
+				rotacao = RDE(raiz);
+			}
 		}
+
+		rotacao.setCor(Cor.PRETO);
+		rotacao.getEsquerda().setCor(Cor.VERMELHO);
+		rotacao.getDireita().setCor(Cor.VERMELHO);
+		rotacao.setPai(pai);
+		raiz.setPai(rotacao);
+		return rotacao;
+
+		// Caso 3a rotação direita simples
+
+//			if (raiz.getEsquerda().getCor() == Cor.VERMELHO) {
+//				return RSD(raiz);
+//			} else {
+//				return RDD(raiz);
+//			
+//		} else {
+//			if (raiz.getDireita().getCor() == Cor.VERMELHO) {
+//				return RSE(raiz);
+//			}
+//			return RDE(raiz);
+//		}
 
 	}
 
 	private Node<T> getTio(Node<T> raiz) {
 		Node<T> pai = raiz.getPai();
-		if (pai.getDireita() == raiz)
-			return pai.getEsquerda();
+		Node<T> direita = pai.getDireita();
+		Node<T> esquerda = pai.getEsquerda();
+		if (direita.equals(raiz))
+			return esquerda;
 		else
-			return pai.getDireita();
+			return direita;
 	}
 
 	public boolean remove(long elemento) {
