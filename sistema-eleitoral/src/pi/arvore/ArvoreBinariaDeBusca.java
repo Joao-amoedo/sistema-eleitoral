@@ -25,12 +25,12 @@ public class ArvoreBinariaDeBusca<T extends Elemento> extends ArvoreBinaria<T> {
 	private T buscaBinaria(long elemento, Node<T> raiz) {
 
 		if (raiz.getElemento() > elemento)
-			if (raiz.getEsquerda() != null)
+			if (raiz.getEsquerda() != null && raiz.getEsquerda().getConteudo() != null)
 				return buscaBinaria(elemento, raiz.getEsquerda());
 			else
 				return null;
 		else if (raiz.getElemento() < elemento)
-			if (raiz.getDireita() != null)
+			if (raiz.getDireita() != null && raiz.getDireita().getConteudo() != null)
 				return buscaBinaria(elemento, raiz.getDireita());
 			else
 				return null;
@@ -45,7 +45,7 @@ public class ArvoreBinariaDeBusca<T extends Elemento> extends ArvoreBinaria<T> {
 			buscaProfundidade(elemento, this.raiz);
 			return null;
 		} catch (FoundNodeException e) {
-			Node<T> node =(Node<T>) e.getNode();
+			Node<T> node = (Node<T>) e.getNode();
 			return node.getConteudo();
 		}
 	}
@@ -53,10 +53,10 @@ public class ArvoreBinariaDeBusca<T extends Elemento> extends ArvoreBinaria<T> {
 	private void buscaProfundidade(long elemento, Node<T> raiz) {
 		if (raiz.getElemento() == elemento)
 			throw new FoundNodeException(raiz);
-		if (raiz.getEsquerda() != null)
+		if (raiz.getEsquerda() != null && raiz.getEsquerda().getConteudo() != null)
 			buscaProfundidade(elemento, raiz.getEsquerda());
 
-		if (raiz.getDireita() != null)
+		if (raiz.getDireita() != null && raiz.getDireita().getConteudo() != null)
 			buscaProfundidade(elemento, raiz.getDireita());
 	}
 
@@ -71,10 +71,10 @@ public class ArvoreBinariaDeBusca<T extends Elemento> extends ArvoreBinaria<T> {
 				if (aux.getElemento() == elemento)
 					return aux.getConteudo();
 
-				if (aux.getEsquerda() != null)
+				if (aux.getEsquerda() != null && aux.getEsquerda().getConteudo() != null)
 					p2.push(aux.getEsquerda());
 
-				if (aux.getDireita() != null)
+				if (aux.getDireita() != null && aux.getDireita().getConteudo() != null)
 					p2.push(aux.getDireita());
 
 			}

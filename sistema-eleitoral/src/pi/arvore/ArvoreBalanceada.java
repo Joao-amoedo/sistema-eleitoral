@@ -14,7 +14,7 @@ public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinaria
 		super();
 		
 	}
-	public Node<T> RSE(Node<T> raiz) {
+	protected Node<T> RSE(Node<T> raiz) {
 		
 		Node<T> aux = raiz.getDireita();
 		raiz.setDireita(aux.getEsquerda());
@@ -23,7 +23,7 @@ public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinaria
 	}
 	
 	
-	public Node<T> RSD(Node<T> raiz) {
+	protected Node<T> RSD(Node<T> raiz) {
 		Node<T> aux = raiz.getEsquerda();
 		raiz.setEsquerda(aux.getDireita());	
 		aux.setDireita(raiz);		
@@ -31,7 +31,7 @@ public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinaria
 
 	}
 	
-	public Node<T> RDE(Node<T> raiz) {
+	protected Node<T> RDE(Node<T> raiz) {
 		invocacaço++;
 		raiz.setDireita(RSD(raiz.getDireita()));
 		Node<T> rse = RSE(raiz);
@@ -40,7 +40,7 @@ public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinaria
 		
 	}
 	
-	public Node<T> RDD(Node<T> raiz) {
+	protected Node<T> RDD(Node<T> raiz) {
 		raiz.setEsquerda(RSE(raiz.getEsquerda()));
 		return RSD(raiz);
 	}
