@@ -3,7 +3,12 @@ package pi.arvore;
 import java.util.Stack;
 
 import pi.arvore.exception.ElementoRepetidoException;
+import pi.model.Candidato;
+import pi.model.Eleitor;
 import pi.model.Elemento;
+import pi.model.Partido;
+import pi.model.TipoCandidato;
+import pi.model.UF;
 import pi.node.Cor;
 import pi.node.Node;
 
@@ -17,6 +22,13 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 
 	public ArvoreRubroNegra() {
 		super();
+	}
+
+	public boolean add(long elemento) {
+		Candidato cand1 = new Candidato("1", Partido.PT, TipoCandidato.PRESIDENCIAVEL);
+		Candidato cand2 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
+		Candidato cand3 = new Candidato("3", Partido.PT, TipoCandidato.FEDERAL);
+		return add(new Eleitor(UF.MA, elemento, 0, cand1, cand2, cand3));
 	}
 
 	public boolean add(Elemento elemento) {
@@ -37,122 +49,177 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			} catch (ElementoRepetidoException ex) {
 				return false;
 			}
-
 		}
 		return true;
 	}
 
 	private void add(Node<T> raiz, Node<T> pai, Node<T> novo) {
-		Stack<Node<T>> p1 = new Stack<Node<T>>();
-		p1.push(raiz);
-		Node<T> aux = raiz;
 		boolean add = false;
-		while (!add) {
-			if (aux == pivo) {
-				if (pai.getElemento() < novo.getElemento()) {
-					pai.setDireita(novo);
-				} else {
-					pai.setEsquerda(novo);
-				}
-				add = true;
-				novo.setPai(pai);
-			} else if (aux.getElemento() < novo.getElemento()) {
-				p1.push(aux);
-				pai = aux;
-				aux = aux.getDireita();
-			} else if (aux.getElemento() > novo.getElemento()) {
-				p1.push(aux);
-				pai = aux;
-				aux = aux.getEsquerda();
-			} else
-				throw new ElementoRepetidoException();
-		}
-
-		Node<T> paiNovo = novo.getPai();
-		Node<T> avoNovo = paiNovo.getPai();
-		boolean recolori = false;
 
 		do {
-//			if (novo.getElemento() == 8) {
-//				System.out.println(paiNovo.pai.getElemento() + "  " + paiNovo.pai.getCor());
-//				System.out.println(avoNovo.pai.getElemento() + "  " + avoNovo.pai.getCor());
-//			}
-			recolori = false;
-			if (paiNovo.getCor() == Cor.VERMELHO) {
-				Node<T> tio = getTio(paiNovo);
+			if (raiz.getElemento() == novo.getElemento()) {
+				throw new ElementoRepetidoException();
+			} else if (raiz.getElemento() < novo.getElemento()) {
+				if (raiz.getDireita().equals(pivo)) {
+					raiz.setDireita(novo);
+					novo.setPai(raiz);
+					add = true;
+				} else
+					raiz = raiz.getDireita();
+			} else {
+				if (raiz.getEsquerda().equals(pivo)) {
+					raiz.setEsquerda(novo);
+					novo.setPai(raiz);
+					add = true;
+				} else
+					raiz = raiz.getEsquerda();
+			}
+		} while (!add);
+		verificaCor(novo.getPai(), novo.getElemento());
+	}
+
+	public void verificaCor(Node<T> raiz, long x) {
+		boolean balanceia = false;
+		do {
+			balanceia = false;
+			if (raiz.getCor() == Cor.VERMELHO
+					&& (raiz.getDireita().getCor() == Cor.VERMELHO || raiz.getEsquerda().getCor() == Cor.VERMELHO)) {
+				Node<T> tio = getTio(raiz);
+				/**
+				 * Caso a raiz e o tio sejam vermelhos, recolori os dois para pretos
+				 */
 				if (tio.getCor() == Cor.VERMELHO) {
+					raiz.setCor(Cor.PRETO);
 					tio.setCor(Cor.PRETO);
-					paiNovo.setCor(Cor.PRETO);
-					if (!avoNovo.equals(this.raiz)) {
-						avoNovo.setCor(Cor.VERMELHO);
-						if (avoNovo.pai.getCor().equals(Cor.VERMELHO)) {
-							paiNovo = avoNovo.getPai();
-							avoNovo = avoNovo.getPai().pai;
-							recolori = true;
-						}
+					/**
+					 * Recolorindo a cor do pai da raiz para vermelho caso não seja a raiz
+					 */
+					if (!raiz.getPai().equals(this.raiz)) {
+						raiz.getPai().setCor(Cor.VERMELHO);
+						raiz = raiz.getPai();
+						balanceia = true;
 					}
+					/**
+					 * Caso a cor do tio seja preta, deve-se rebalancear
+					 */
 				} else {
-					if (this.raiz == paiNovo.getPai()) {
-						this.raiz = verificaTipoBalanceamento(avoNovo, paiNovo, avoNovo.getPai());
+					Node<T> pai = raiz.getPai();
+					Node<T> avo = pai.getPai();
+					/**
+					 * Caso o pai seja a raiz
+					 */
+					if (pai.equals(this.raiz)) {
+						this.raiz = verificaTipoBalanceamento(pai, raiz, avo);
+						/**
+						 * Caso o pai não seja a raiz
+						 */
+					} else if (avo.getEsquerda().equals(pai)) {
+						avo.setEsquerda(verificaTipoBalanceamento(pai, raiz, avo));
 					} else {
-						if (avoNovo.getPai().getEsquerda().equals(avoNovo)) {
-							avoNovo.getPai().setEsquerda(verificaTipoBalanceamento(avoNovo, paiNovo, avoNovo.getPai()));
-						} else {
-//							if (novo.getElemento() == 8)
-//								System.out.println(avoNovo.pai.getElemento());
-							avoNovo.getPai().setDireita(verificaTipoBalanceamento(avoNovo, paiNovo, avoNovo.getPai()));
-						}
+						avo.setDireita(verificaTipoBalanceamento(pai, raiz, avo));
 					}
 				}
 			} else {
+				/**
+				 * Caso o node em questão seja vermelho e o pai também, sobe um nível e repete o
+				 * loop
+				 */
+				if (raiz.getCor() == Cor.VERMELHO && raiz.getPai().getCor() == Cor.VERMELHO) {
+					raiz = raiz.getPai();
+					balanceia = true;
+				}
 			}
-		} while (recolori);
+		} while (balanceia);
+	}
 
-//		esvaziaAPilha(p1, null);
+	/**
+	 * Balanceamento simples a direita
+	 * 
+	 * @return rsd
+	 * @param raiz
+	 */
+	protected Node<T> RSD(Node<T> raiz) {
+		Node<T> pai = raiz.getPai();
+		Node<T> aux = raiz.getEsquerda();
+		Node<T> auxDir = aux.getDireita();
+		raiz.setEsquerda(auxDir);
+		auxDir.setPai(raiz);
+		aux.setDireita(raiz);
+		raiz.setPai(aux);
+		aux.setPai(pai);
+		return aux;
+	}
+
+	/**
+	 * Balanceamento simples a esquerda
+	 * 
+	 * @return rse
+	 * @param raiz
+	 */
+
+	protected Node<T> RSE(Node<T> raiz) {
+		Node<T> pai = raiz.getPai();
+		Node<T> aux = raiz.getDireita();
+		Node<T> auxEsq = aux.getEsquerda();
+		raiz.setDireita(auxEsq);
+		auxEsq.setPai(raiz);
+		aux.setEsquerda(raiz);
+		raiz.setPai(aux);
+		aux.setPai(pai);
+		return aux;
+	}
+
+	protected Node<T> RDD(Node<T> raiz) {
+		raiz.setEsquerda(RSE(raiz.getEsquerda()));
+		return RSD(raiz);
+	}
+
+	protected Node<T> RDE(Node<T> raiz) {
+		raiz.setDireita(RSD(raiz.getDireita()));
+		return RSE(raiz);
 	}
 
 	private Node<T> verificaTipoBalanceamento(Node<T> raiz, Node<T> filho, Node<T> pai) {
 
 		Node<T> rotacao = null;
 		if (raiz.getEsquerda() == filho) {
+			/**
+			 * RSD
+			 */
 			if (filho.getEsquerda().getCor() == Cor.VERMELHO) {
 				rotacao = RSD(raiz);
+			}
+			/**
+			 * RDD
+			 */
+			else {
 
-			} else {
-				Node<T> rse = RSE(raiz.getEsquerda());
-				rse.getEsquerda().setPai(rse);
-				rse.setPai(raiz);
-				raiz.setEsquerda(rse);
-				rotacao = RSD(raiz);
+				rotacao = RDD(raiz);
 			}
 		} else {
+			/**
+			 * RSE
+			 */
 			if (filho.getDireita().getCor() == Cor.VERMELHO) {
 				rotacao = RSE(raiz);
 
-			} else {
-				Node<T> rsd = RSD(raiz.getDireita());
-				rsd.getDireita().setPai(rsd);
-				rsd.setPai(raiz);
-				raiz.setDireita(rsd);
-				rotacao = RSE(raiz);
+			}
+			/**
+			 * RDE
+			 */
+			else {
+				rotacao = RDE(raiz);
 			}
 		}
 
 		rotacao.setCor(Cor.PRETO);
-		rotacao.getEsquerda().setCor(Cor.VERMELHO);
-		rotacao.getDireita().setCor(Cor.VERMELHO);
+		if (!rotacao.getEsquerda().equals(pivo))
+			rotacao.getEsquerda().setCor(Cor.VERMELHO);
+		if (!rotacao.getDireita().equals(pivo))
+			rotacao.getDireita().setCor(Cor.VERMELHO);
 		rotacao.setPai(pai);
 		raiz.setPai(rotacao);
 		return rotacao;
-
-	}
-
-	private void esvaziaAPilha(Stack<Node<T>> p1, Node<T> auxFilho) {
-
-	}
-
-	public boolean verificaCor(Node<T> raiz) {
-		return false;
 	}
 
 	private Node<T> getTio(Node<T> raiz) {

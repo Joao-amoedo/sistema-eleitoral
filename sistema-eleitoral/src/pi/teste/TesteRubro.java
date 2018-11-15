@@ -16,50 +16,94 @@ import pi.model.UF;
 public class TesteRubro {
 	public static void main(String[] args) {
 
-		ArvoreRubroNegra<Eleitor> ab = new ArvoreRubroNegra<Eleitor>();
+		ArvoreRubroNegra<Eleitor> abRubro = new ArvoreRubroNegra<Eleitor>();
+		ArvoreAVL<Eleitor> abAVL = new ArvoreAVL<Eleitor>();
+
+		Random rand = new Random();
+		List<Eleitor> list = new ArrayList<Eleitor>();
 		Candidato cand1 = new Candidato("1", Partido.PT, TipoCandidato.PRESIDENCIAVEL);
 		Candidato cand2 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
 		Candidato cand3 = new Candidato("3", Partido.PT, TipoCandidato.FEDERAL);
-		Eleitor el1 = new Eleitor(UF.MA, 10, 0, cand1, cand2, cand3);
-		Eleitor el2 = new Eleitor(UF.MA, 5, 0, cand1, cand2, cand3);
-		Eleitor el3 = new Eleitor(UF.MA, 7, 0, cand1, cand2, cand3);
-		Eleitor el4 = new Eleitor(UF.MA, 1, 0, cand1, cand2, cand3);
 		
-		ab.add(el1);
-		ab.add(el2);
-		ab.add(el3);
-		System.out.println(ab.raiz.esquerda.getPai().getElemento());
-//		ab.add(el4);
-//		System.out.println(ab.raiz.getElemento());
-//		Random rand = new Random();
-//		long qtd = 3000000;
-//		List<Integer> list = new ArrayList<Integer>();
-//		for(int x = 0; x < qtd; x++)
-//			list.add(rand.nextInt());
-//		
-//		
-//		long ini = System.currentTimeMillis();
-//		for (int x = 0; x<50; x++) {
-//			ab.add(new Eleitor(UF.MA, x, 0, cand1, cand2, cand3));
-//		}
-//		long fim = System.currentTimeMillis();
-//		System.out.println("Inserção Recursiva: "+ (((double) fim-ini)/1000) + " Segundos");
-//		ini = System.currentTimeMillis();
-//		for (Integer x : list) {
-//			ab2.add(new Eleitor(UF.MA, x, 0, cand1, cand2, cand3),true,true);
-//		}
-//		fim = System.currentTimeMillis();
-//		
-//		System.out.println("Inserção Iterativa: "+ (((double) fim-ini)/1000) + " Segundos");
-//		System.out.println("Quantidade inserida: "+qtd);
-//		
-//		
+		int qtdBusca = 50;
+		int qtdAdd = 1000000;
+		for (int x = 0; x < qtdAdd; x++) {
+			list.add(new Eleitor(UF.MA, rand.nextLong(), 0, cand1, cand2, cand3));
+		}
+
+		long iniRubro = System.currentTimeMillis();
+		for (Eleitor eleitor : list) {
+			abRubro.add(eleitor);
+		}
+		long fimRubro = System.currentTimeMillis();
+		long iniAVL = System.currentTimeMillis();
 		
-//		Eleitor busca = ab.buscaProfundidade(-1);
+		for (Eleitor eleitor : list) {
+			abAVL.add(eleitor);
+		}
+		long fimAVL = System.currentTimeMillis();
+		System.out.println("\tArvore Rubro Negra");
+		System.out.println("Tempo que demorou para inserir na Rubro: " + (((double) fimRubro - iniRubro) / 1000) + " Segundos");
+		System.out.println("RAIZ: " + abRubro.raiz.getElemento());
+		System.out.println("Tamanho da arvoreRubro: " + abRubro.toList().size());
+		System.out.println("-------");
+		System.out.println("\tArvore AVL");
+		System.out.println("Tempo que demorou para inserir na AVL: " + (((double) fimAVL - iniAVL) / 1000) + " Segundos");
+		System.out.println("RAIZ: " + abAVL.raiz.getElemento());
+		System.out.println("Tamanho da arvoreAVL: " + abAVL.toList().size());
+		System.out.println("----------");
+		System.out.println("\tBusca na Arvore Rubro Negra");
+		List<Integer> listInt = new ArrayList<Integer>();
+		for(int x = 0; x < qtdBusca; x++) {
+			listInt.add(rand.nextInt());
+		}
+		
+		long ini = System.currentTimeMillis();
+		for (Integer x : listInt) {
+			abRubro.buscaBinaria(x);
+		}
+		long fim = System.currentTimeMillis();
 
-//		System.out.println(busca == null);
+		System.out.println("Busca Binaria na Rubro Negra: " + (((double) fim- ini) / 1000) + " Segundos");
+		
+		ini = System.currentTimeMillis();
+		for (Integer x : listInt) {
+			abRubro.buscaProfundidade(x);
+		}
+		fim = System.currentTimeMillis();
+		System.out.println("Busca Profundidade na Rubro Negra: " + (((double) fim- ini) / 1000) + " Segundos");
+		
+		ini = System.currentTimeMillis();
+		for (Integer x : listInt) {
+			abRubro.buscaLargura(x);
+		}
+		fim = System.currentTimeMillis();
+		System.out.println("Busca Largura na Rubro Negra: " + (((double) fim- ini) / 1000) + " Segundos");
+		System.out.println("Quantidade de elementos pesquisados: " + qtdBusca);
+		
+		System.out.println("---------");
+		System.out.println("\tBusca na Árvore AVl");
+		ini = System.currentTimeMillis();
+		for (Integer x : listInt) {
+			abAVL.buscaBinaria(x);
+		}
+		fim = System.currentTimeMillis();
 
-//		System.out.println(ab.raiz.getElemento());
-
+		System.out.println("Busca Binaria na AVL: " + (((double) fim- ini) / 1000) + " Segundos");
+		
+		ini = System.currentTimeMillis();
+		for (Integer x : listInt) {
+			abAVL.buscaProfundidade(x);
+		}
+		fim = System.currentTimeMillis();
+		System.out.println("Busca Profundidade na AVL " + (((double) fim- ini) / 1000) + " Segundos");
+		
+		ini = System.currentTimeMillis();
+		for (Integer x : listInt) {
+			abAVL.buscaLargura(x);
+		}
+		fim = System.currentTimeMillis();
+		System.out.println("Busca Largura na AVL: " + (((double) fim- ini) / 1000) + " Segundos");
+		System.out.println("Quantidade de elementos pesquisados: " + qtdBusca);
 	}
 }
