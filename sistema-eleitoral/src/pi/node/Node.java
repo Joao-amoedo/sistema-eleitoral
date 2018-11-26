@@ -131,10 +131,18 @@ public class Node<t extends Elemento> {
 
 	}
 
+	/**
+	 * Retorna o conteudo do Node
+	 * @return
+	 */
 	public t getConteudo() {
 		return (t) this.conteudo;
 	}
 
+	/**
+	 * Retorna a altura do Node na árvore
+	 * @return
+	 */
 	public int getAltura() {
 		return this.altura;
 	}
@@ -174,10 +182,18 @@ public class Node<t extends Elemento> {
 		}
 	}
 
+	/**
+	 * Retorna a cor do Node
+	 * @return cor
+	 */
 	public Cor getCor() {
 		return cor;
 	}
 
+	/**
+	 * Atribui uma cor ao Node
+	 * @param cor
+	 */
 	public void setCor(Cor cor) {
 		this.cor = cor;
 	}
@@ -187,16 +203,28 @@ public class Node<t extends Elemento> {
 		return this.conteudo + "";
 	}
 
+	/**
+	 * Atribui o Node pai ao Node raiz
+	 * @param pai
+	 */
 	public void setPai(Node<t> pai) {
 		this.pai = pai;
 
 	}
 
+	/**
+	 * Retorna o pai do Node
+	 * @return
+	 */
 	public Node<t> getPai() {
 
 		return pai;
 	}
 
+	/**
+	 * Retorna o fator de balanceamento
+	 * @return
+	 */
 	public int getFat() {
 		return this.fat;
 	}

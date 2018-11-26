@@ -2,7 +2,7 @@ package pi.arvore;
 
 import java.util.Stack;
 
-import pi.arvore.exception.FoundNodeException;
+import pi.arvore.exception.FoundElementException;
 import pi.model.Elemento;
 import pi.node.Node;
 
@@ -44,7 +44,7 @@ public class ArvoreBinariaDeBusca<T extends Elemento> extends ArvoreBinaria<T> {
 		try {
 			buscaProfundidade(elemento, this.raiz);
 			return null;
-		} catch (FoundNodeException e) {
+		} catch (FoundElementException e) {
 			Node<T> node = (Node<T>) e.getNode();
 			return node.getConteudo();
 		}
@@ -52,7 +52,7 @@ public class ArvoreBinariaDeBusca<T extends Elemento> extends ArvoreBinaria<T> {
 
 	private void buscaProfundidade(long elemento, Node<T> raiz) {
 		if (raiz.getElemento() == elemento)
-			throw new FoundNodeException(raiz);
+			throw new FoundElementException(raiz);
 		if (raiz.getEsquerda() != null && raiz.getEsquerda().getConteudo() != null)
 			buscaProfundidade(elemento, raiz.getEsquerda());
 

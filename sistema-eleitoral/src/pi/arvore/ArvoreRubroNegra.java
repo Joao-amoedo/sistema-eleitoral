@@ -2,7 +2,8 @@ package pi.arvore;
 
 import java.util.Stack;
 
-import pi.arvore.exception.ElementoRepetidoException;
+import pi.arvore.exception.NotFoundElementException;
+import pi.arvore.exception.RepeatedElementException;
 import pi.model.Candidato;
 import pi.model.Eleitor;
 import pi.model.Elemento;
@@ -32,7 +33,6 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 	}
 
 	public boolean add(Elemento elemento) {
-
 		@SuppressWarnings("unchecked")
 		Node<T> novo = new Node<T>((T) elemento);
 		novo.setDireita(pivo);
@@ -46,7 +46,7 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 				if (raiz == novo)
 					raiz.setCor(Cor.PRETO);
 				return true;
-			} catch (ElementoRepetidoException ex) {
+			} catch (RepeatedElementException ex) {
 				return false;
 			}
 		}
@@ -58,7 +58,7 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 
 		do {
 			if (raiz.getElemento() == novo.getElemento()) {
-				throw new ElementoRepetidoException();
+				throw new RepeatedElementException();
 			} else if (raiz.getElemento() < novo.getElemento()) {
 				if (raiz.getDireita().equals(pivo)) {
 					raiz.setDireita(novo);
@@ -235,35 +235,73 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 	public boolean remove(long elemento) {
 
 		try {
-			raiz = remove(raiz, null, elemento);
+			raiz = remove(raiz, elemento);
 			return true;
-		} catch (IllegalArgumentException ex) {
+		} catch (NotFoundElementException ex) {
 			System.out.println(ex.getMessage());
 			return false;
 		}
 	}
 
-	protected Node<T> remove(Node<T> raiz, Node<T> pai, long elemento) {
-		if (raiz == null)
-			throw new IllegalArgumentException("Elemento não encontrado");
-		else if (raiz.getElemento() == elemento) {
-			Node<T> remove = verificaTipoRemocao(raiz);
-			int filhos = raiz.getQuantidadeDeFilhos();
-			definePai(raiz, filhos, remove);
-			if (remove != null) {
-				remove.setPai(pai);
-			}
+	protected Node<T> remove(Node<T> raiz, long elemento) {
+		Node<T> aux = raiz;
 
-			return remove;
-		} else if (raiz.getElemento() < elemento) {
-			raiz.setDireita(remove(raiz.getDireita(), elemento));
-		} else {
-			raiz.setEsquerda(remove(raiz.getEsquerda(), elemento));
-		}
-		return raiz;
+		do {
+			/**
+			 * Caso o Node não esteja na árvore
+			 */
+			if (aux.equals(null) || aux.equals(pivo))
+				throw new NotFoundElementException();
+			/**
+			 * Qunado encontra o Node que deve ser removido
+			 */
+			else if (aux.getElemento() == elemento) {
+//				System.out.println("Achei o elemento! : " + raiz.getElemento());
+				Node<T> remove = verificaTipoRemocao(aux);
+//				definePai(aux, remove);
+				return remove;
+			} 
+			/**
+			 * Caso o elemento do Node seja menor do que o elemento
+			 */
+			else if (aux.getElemento() < elemento)
+				aux = aux.getDireita();
+			/**
+			 * Caso o elemento do Node seja maior do que o elemento
+			 */
+			else if (aux.getElemento() > elemento)
+				aux = aux.getEsquerda();
+		} while (true);
 	}
 
-	private void definePai(Node<T> raiz, int filhos, Node<T> remove) {
+	private void balanceiaRemove(Node<T> removido, Node<T> sucessor) {
+		Cor rCor = removido.getCor();
+		Cor sCor = sucessor.getCor();
+		Cor preto = Cor.PRETO;
+		Cor vermelho = Cor.VERMELHO;
+		/**
+		 * Caso 1 - Removido = Rubro, Sucessor = Rubro; Faz nada
+		 */
+		if (rCor.equals(vermelho) && sCor.equals(vermelho)) {
+		}
+		/**
+		 * Caso 2 - Removido = Preto, Sucessor = Vermelho; Pinte o Sucessor para Preto
+		 */
+		else if (rCor.equals(preto) && sCor.equals(vermelho)) {
+			sucessor.setCor(vermelho);
+		} else {
+		}
+
+	}
+
+	/**
+	 * Redefine o parentesco da árvore após a remoção
+	 * 
+	 * @param raiz
+	 * @param remove
+	 */
+	private void definePai(Node<T> raiz, Node<T> remove) {
+		int filhos = raiz.getQuantidadeDeFilhos();
 		if (filhos == 1)
 			raiz.getDireita().setPai(remove);
 		else if (filhos == -1)
@@ -272,6 +310,13 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			raiz.getDireita().setPai(remove);
 			raiz.getEsquerda().setPai(remove);
 		}
+		if (raiz.getPai() != null) {
+			Node<T> pai = raiz.getPai();
+			if (pai.getEsquerda().equals(raiz)) {
+				pai.setEsquerda(remove);
+			} else {
+				pai.setDireita(remove);
+			}
+		}
 	}
-
 }

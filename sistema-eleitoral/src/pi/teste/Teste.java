@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.OptionalLong;
 import java.util.Random;
 
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
 import pi.DAO.DAOCandidato;
 import pi.DAO.DAOEleitor;
 import pi.arvore.ArvoreAVL;
@@ -21,52 +23,39 @@ import pi.model.cpf.CPF;
 
 public class Teste {
 	public static void main(String[] args) {
+		ArvoreBinariaDeBusca<Candidato> abCand = DAOCandidato.lerArquivos();
+		long ini = System.currentTimeMillis();//
+		ArvoreBinariaDeBusca<Eleitor> abEleitor = DAOEleitor.lerArquivo(abCand, 1);
+		long fim = System.currentTimeMillis();
+//		System.out.println("Tempo para ler: " + ((double) fim - ini) / 1000 + " Segundos");
+		DAOEleitor.geraEleitor(abEleitor, abCand, 30000000);
+		Candidato CandRegionalVencedor = abCand
+				.toList()
+				.stream()
+				.filter(c -> c.getTipoCandidato() == TipoCandidato.REGIONAL)
+				.max((c1, c2) -> Long.compare(c1.getQtdVotos(), c2.getQtdVotos()))
+				.get();
 
-		ArvoreAVL<Eleitor> ab1 = new ArvoreAVL<Eleitor>();
-		ArvoreAVL<Eleitor> ab2 = new ArvoreAVL<Eleitor>();
-
-		Candidato cand1 = new Candidato("1", Partido.PT, TipoCandidato.PRESIDENCIAVEL);
-		Candidato cand2 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
-		Candidato cand3 = new Candidato("3", Partido.PT, TipoCandidato.FEDERAL);
-
-		ArvoreBinaria<Candidato> abCand = new ArvoreBinaria<Candidato>();
-		abCand.add(cand1);
-		abCand.add(cand2);
-		abCand.add(cand3);
+		Candidato CandFederalVencedor = abCand
+				.toList()
+				.stream()
+				.filter(c -> c.getTipoCandidato() == TipoCandidato.FEDERAL)
+				.max((c1, c2) -> Long.compare(c1.getQtdVotos(), c2.getQtdVotos()))
+				.get();
 		
-		
-		
-		Random rand = new Random();
+		Candidato CandPresidenciavelVencedor = abCand
+				.toList()
+				.stream()
+				.filter(c -> c.getTipoCandidato() == TipoCandidato.PRESIDENCIAVEL)
+				.max((c1, c2) -> Long.compare(c1.getQtdVotos(), c2.getQtdVotos()))
+				.get();
 
-		long qtd = 1000000;
-		for (long x = 0; x <= qtd; x++) {
-			ab2.add(new Eleitor(UF.MA, x, 0, cand1, cand2, cand3));
-		}
+		System.out.println(CandRegionalVencedor);
+		System.out.println("Quantidade de votos: "+ CandRegionalVencedor.getQtdVotos());
+		System.out.println(CandFederalVencedor);
+		System.out.println("Quantidade de votos: "+ CandFederalVencedor.getQtdVotos());
+		System.out.println(CandPresidenciavelVencedor);
+		System.out.println("Quantidade de votos: "+ CandPresidenciavelVencedor.getQtdVotos());
 		
-		long qtdBuscas = 10000;
-		long inicioBusca = System.currentTimeMillis();
-		for (int x = 0; x < qtdBuscas; x++) {
-			ab2.buscaLargura(x);
-		}
-		long fimBusca = System.currentTimeMillis();
-		System.out.println("Busca por largura: " + ((double)(fimBusca - inicioBusca) / 1000) + " Segundos");
-
-		inicioBusca = System.currentTimeMillis();
-		for (int x = 0; x < qtdBuscas; x++) {
-			ab2.buscaBinaria(x);
-		}
-		fimBusca = System.currentTimeMillis();
-
-		System.out.println("Busca Binaria: " + ((double)(fimBusca - inicioBusca) / 1000) + " Segundos");
-		inicioBusca = System.currentTimeMillis();
-		for (int x = 0; x < qtdBuscas; x++) {
-			ab2.buscaProfundidade(x);
-		}
-		fimBusca = System.currentTimeMillis();
-		
-//		System.out.println(String.format("Busca Binaria: %.10f", ((double)(fimBusca - inicioBusca) / 1000)));
-		System.out.println("Busca Profundidade: " + ((double)(fimBusca - inicioBusca) / 1000) + " Segundos");
-		System.out.println("Quantidade de buscas realizadas: " + qtdBuscas);
-		System.out.println("Quantidade de elementos na árvore: " + qtd);
 	}
 }
