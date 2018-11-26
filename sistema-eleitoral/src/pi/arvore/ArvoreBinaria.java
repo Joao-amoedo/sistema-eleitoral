@@ -207,6 +207,7 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 
 		if (raiz.getDireita() == remover) {
 			raiz.setDireita(remover.getEsquerda());
+			remover.getEsquerda().setPai(remover.getPai());
 		}
 
 		return remover;
@@ -214,7 +215,6 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 
 	/**
 	 * Retorna a raiz da árvore
-	 * 
 	 * @return raiz
 	 */
 	@Override
@@ -294,11 +294,24 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 
 	}
 
+	/**
+	 * Retorna uma lista com todos os elementos da árvore
+	 * @return lista
+	 */
 	public List<T> toList() {
+		if(raiz == null) {
+			return null;
+		}
 		List<T> lista = new ArrayList<T>();
 		return toList(lista, this.raiz);
 	}
 
+	/**
+	 * Método protected que percorre a árvore recursivamente pra retornar a lista
+	 * @param lista
+	 * @param raiz
+	 * @return
+	 */
 	private List<T> toList(List<T> lista, Node<T> raiz) {
 		if (raiz.getEsquerda() != null && raiz.getEsquerda().getConteudo() != null)
 			toList(lista, raiz.getEsquerda());

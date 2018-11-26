@@ -18,8 +18,6 @@ import pi.model.TipoCandidato;
 
 public class DAOCandidato {
 
-
-	
 	public static void gravarArquivo(String texto) throws Exception {
 
 		try (FileWriter fw = new FileWriter("candidatos//candidato.txt", true);
@@ -27,58 +25,63 @@ public class DAOCandidato {
 				PrintWriter out = new PrintWriter(bw)) {
 			out.println(texto);
 		} catch (IOException e) {
-			// exce��o
+
 		}
 	}
-	
-	private static void lerArquivo(String nomeArquivo, ArvoreBinariaDeBusca<Candidato>abb) {
-		try(Scanner sc = new Scanner(new File(nomeArquivo))){
+
+	private static void lerArquivo(String nomeArquivo, ArvoreBinariaDeBusca<Candidato> ab) {
+		try (Scanner sc = new Scanner(new File(nomeArquivo))) {
 			sc.nextLine();
-			while(sc.hasNextLine()) {
+			while (sc.hasNextLine()) {
 				String linha = sc.nextLine();
 				String[] split = linha.split(";");
-				
+
 				short codigoCandidato = Short.parseShort(split[1]);
 				String nomeCandidato = split[2];
 				Partido partido = Partido.getPartido(Integer.parseInt(split[3]));
 				TipoCandidato tp = null;
-				
-				if(split[1].length() < 4)
+
+				if (split[1].length() < 4)
 					tp = TipoCandidato.FEDERAL;
-				else if(split[1].length() == 4)
+				else if (split[1].length() == 4)
 					tp = TipoCandidato.REGIONAL;
 				else
 					tp = TipoCandidato.PRESIDENCIAVEL;
 
-				Candidato cad = new Candidato(nomeCandidato,partido,tp,codigoCandidato);
-				
-				abb.add(cad);
-				
+				Candidato cad = new Candidato(nomeCandidato, partido, tp, codigoCandidato);
+
+				ab.add(cad);
+
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void geraCandidatos(ArvoreBinaria<Candidato> ab, int qtdCandidatos) {
 		int contador = 0;
-		
-		while(contador<qtdCandidatos) {
-			TipoCandidato tipoCandidato = TipoCandidato.getTipoCandidatoAleatorio();
-			String nome = String.format("Candidato %d", Candidato.getCodigoCandidatos() + 1);
-			Partido partido = Partido.getPartidoAleatorio();
-			
-			Candidato candidato = new Candidato(nome,partido,tipoCandidato);
-			if(ab.add(candidato,true))
-				contador++;
+		try (FileWriter fw = new FileWriter("candidatos\\candidato.txt", true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter out = new PrintWriter(bw)) {
+
+			while (contador < qtdCandidatos) {
+				TipoCandidato tipoCandidato = TipoCandidato.getTipoCandidatoAleatorio();
+				String nome = String.format("Candidato %d", Candidato.getCodigoCandidatos() + 1);
+				Partido partido = Partido.getPartidoAleatorio();
+
+				Candidato candidato = new Candidato(nome, partido, tipoCandidato);
+				if (ab.add(candidato, true))
+					contador++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
-	
+
 	public static ArvoreBinariaDeBusca<Candidato> lerArquivos() {
 		ArvoreBinariaDeBusca<Candidato> ab = new ArvoreBinariaDeBusca<Candidato>();
-		DAOCandidato.lerArquivo("candidatos//candidato.txt",ab);
-//		DAOCandidato.lerArquivo("candidatos//presidente.txt",ab);
+		DAOCandidato.lerArquivo("candidatos//candidato.txt", ab);
+		DAOCandidato.lerArquivo("candidatos//presidente.txt", ab);
 		return ab;
 	}
 }
