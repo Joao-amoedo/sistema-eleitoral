@@ -31,7 +31,6 @@ public class DAOEleitor {
 
 	private static List<Candidato> regional = new ArrayList<Candidato>();
 	private static List<Candidato> federal = new ArrayList<Candidato>();
-	private static List<Candidato> presidenciavel = new ArrayList<Candidato>();
 	private static List<Integer> codigoMunicipioTO = new ArrayList<Integer>();
 	private static List<Integer> codigoMunicipioPA = new ArrayList<Integer>();
 	private static List<Integer> codigoMunicipioMA = new ArrayList<Integer>();
@@ -105,10 +104,10 @@ public class DAOEleitor {
 			abEleitor = new ArvoreAVL<Eleitor>();
 		else
 			abEleitor = new ArvoreBinariaDeBusca<Eleitor>();
-//		ArvoreBinariaDeBusca<Eleitor> abEleitor = new ArvoreBinariaDeBusca<Eleitor>();
+
 
 		try (Scanner sc = new Scanner(new File("eleitores\\eleitor.txt"))) {
-//			sc.nextLine();
+			sc.nextLine();
 			while (sc.hasNextLine()) {
 				String linha = sc.nextLine();
 				String[] split = linha.split(";");
@@ -122,14 +121,12 @@ public class DAOEleitor {
 
 				int codCandidatoFederal = Integer.parseInt(split[5]);
 				int codCandidatoRegional = Integer.parseInt(split[7]);
-				int codCandidatoPresidenciavel = Integer.parseInt(split[9]);
 
 				Candidato candidatoFederal = ab.buscaBinaria(codCandidatoFederal);
 				Candidato candidatoRegional = ab.buscaBinaria(codCandidatoRegional);
-				Candidato candidatoPresidenciavel = ab.buscaBinaria(codCandidatoPresidenciavel);
 
 				Eleitor eleitor = new Eleitor(uf, cpf, sequencial, codigoDoMunicipio, candidatoFederal,
-						candidatoRegional, candidatoPresidenciavel);
+						candidatoRegional);
 
 				abEleitor.add(eleitor);
 
@@ -162,9 +159,7 @@ public class DAOEleitor {
 				int codigoMunicipio = getCodigoAleatorio(uf);
 				Candidato candidatoFederal = federal.get(rand.nextInt(federal.size()));
 				Candidato candidatoRegional = regional.get(rand.nextInt(regional.size()));
-				Candidato candidatoPres = presidenciavel.get(rand.nextInt(presidenciavel.size()));
-				Eleitor eleitor = new Eleitor(uf, cpf, codigoMunicipio, candidatoFederal, candidatoRegional,
-						candidatoPres);
+				Eleitor eleitor = new Eleitor(uf, cpf, codigoMunicipio, candidatoFederal, candidatoRegional);
 
 				if (abEleitor.add(eleitor)) {
 					out.println(eleitor.toString());
@@ -181,10 +176,6 @@ public class DAOEleitor {
 		Arrays.asList(ab.toList().stream().toArray()).stream()
 				.filter(c -> ((Candidato) c).getTipoCandidato() == TipoCandidato.FEDERAL)
 				.forEach(c -> federal.add((Candidato) c));
-
-		Arrays.asList(ab.toList().stream().toArray()).stream()
-				.filter(c -> ((Candidato) c).getTipoCandidato() == TipoCandidato.PRESIDENCIAVEL)
-				.forEach(c -> presidenciavel.add((Candidato) c));
 
 		Arrays.asList(ab.toList().stream().toArray()).stream()
 				.filter(c -> ((Candidato) c).getTipoCandidato() == TipoCandidato.REGIONAL)

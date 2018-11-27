@@ -28,6 +28,11 @@ public class DAOCandidato {
 
 		}
 	}
+	/**
+	 * Lê linha a linha do arquivo, separa cada pedaço pelo ';', cria um novo candidato e o poe na árvore
+	 * @param nomeArquivo
+	 * @param ab
+	 */
 
 	private static void lerArquivo(String nomeArquivo, ArvoreBinariaDeBusca<Candidato> ab) {
 		try (Scanner sc = new Scanner(new File(nomeArquivo))) {
@@ -36,17 +41,15 @@ public class DAOCandidato {
 				String linha = sc.nextLine();
 				String[] split = linha.split(";");
 
-				short codigoCandidato = Short.parseShort(split[1]);
+				short codigoCandidato = Short.parseShort(split[1].replace(" ", ""));
 				String nomeCandidato = split[2];
-				Partido partido = Partido.getPartido(Integer.parseInt(split[3]));
+				Partido partido = Partido.getPartido(Integer.parseInt(split[3].replace(" ", "")));
 				TipoCandidato tp = null;
 
-				if (split[1].length() < 4)
+				if (split[1].length() < 5)
 					tp = TipoCandidato.FEDERAL;
-				else if (split[1].length() == 4)
+				else if (split[1].length() >= 5)
 					tp = TipoCandidato.REGIONAL;
-				else
-					tp = TipoCandidato.PRESIDENCIAVEL;
 
 				Candidato cad = new Candidato(nomeCandidato, partido, tp, codigoCandidato);
 
@@ -65,7 +68,7 @@ public class DAOCandidato {
 				PrintWriter out = new PrintWriter(bw)) {
 
 			while (contador < qtdCandidatos) {
-				TipoCandidato tipoCandidato = TipoCandidato.getTipoCandidatoAleatorio();
+				TipoCandidato tipoCandidato = TipoCandidato.REGIONAL;
 				String nome = String.format("Candidato %d", Candidato.getCodigoCandidatos() + 1);
 				Partido partido = Partido.getPartidoAleatorio();
 
