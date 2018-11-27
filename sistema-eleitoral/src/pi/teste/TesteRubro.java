@@ -25,7 +25,7 @@ public class TesteRubro {
 		Candidato cand2 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
 		Candidato cand3 = new Candidato("3", Partido.PT, TipoCandidato.FEDERAL);
 		
-		int qtdBusca = 50;
+		int qtdBusca = 100;
 		int qtdAdd = 1000000;
 		for (int x = 0; x < qtdAdd; x++) {
 			list.add(new Eleitor(UF.MA, rand.nextLong(), 0, cand1, cand2, cand3));

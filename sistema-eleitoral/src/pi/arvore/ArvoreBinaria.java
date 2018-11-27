@@ -22,13 +22,13 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 	 * @param grava
 	 */
 	public ArvoreBinaria(T elemento, boolean grava) {
-		raiz = new Node<T>(elemento, Cor.PRETO);
+		raiz = new Node<T>(elemento, Cor.NEGRO);
 		if (grava)
 			this.gravaArquivo(raiz);
 	}
 
 	public ArvoreBinaria(T elemento) {
-		raiz = new Node<T>(elemento, Cor.PRETO);
+		raiz = new Node<T>(elemento, Cor.NEGRO);
 	}
 
 	public ArvoreBinaria() {

@@ -15,7 +15,7 @@ import pi.node.Node;
 
 public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 
-	public Node<T> pivo = new Node<T>(null, Cor.PRETO);
+	public Node<T> pivo = new Node<T>(null, Cor.NEGRO);
 
 	public ArvoreRubroNegra(T elemento) {
 		super(elemento);
@@ -39,12 +39,12 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 		novo.setEsquerda(pivo);
 		if (raiz == null) {
 			raiz = novo;
-			raiz.setCor(Cor.PRETO);
+			raiz.setCor(Cor.NEGRO);
 		} else {
 			try {
 				add(this.raiz, null, novo);
 				if (raiz == novo)
-					raiz.setCor(Cor.PRETO);
+					raiz.setCor(Cor.NEGRO);
 				return true;
 			} catch (RepeatedElementException ex) {
 				return false;
@@ -82,20 +82,20 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 		boolean balanceia = false;
 		do {
 			balanceia = false;
-			if (raiz.getCor() == Cor.VERMELHO
-					&& (raiz.getDireita().getCor() == Cor.VERMELHO || raiz.getEsquerda().getCor() == Cor.VERMELHO)) {
+			if (raiz.getCor() == Cor.RUBRO
+					&& (raiz.getDireita().getCor() == Cor.RUBRO || raiz.getEsquerda().getCor() == Cor.RUBRO)) {
 				Node<T> tio = getTio(raiz);
 				/**
 				 * Caso a raiz e o tio sejam vermelhos, recolori os dois para pretos
 				 */
-				if (tio.getCor() == Cor.VERMELHO) {
-					raiz.setCor(Cor.PRETO);
-					tio.setCor(Cor.PRETO);
+				if (tio.getCor() == Cor.RUBRO) {
+					raiz.setCor(Cor.NEGRO);
+					tio.setCor(Cor.NEGRO);
 					/**
 					 * Recolorindo a cor do pai da raiz para vermelho caso não seja a raiz
 					 */
 					if (!raiz.getPai().equals(this.raiz)) {
-						raiz.getPai().setCor(Cor.VERMELHO);
+						raiz.getPai().setCor(Cor.RUBRO);
 						raiz = raiz.getPai();
 						balanceia = true;
 					}
@@ -124,7 +124,7 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 				 * Caso o node em questão seja vermelho e o pai também, sobe um nível e repete o
 				 * loop
 				 */
-				if (raiz.getCor() == Cor.VERMELHO && raiz.getPai().getCor() == Cor.VERMELHO) {
+				if (raiz.getCor() == Cor.RUBRO && raiz.getPai().getCor() == Cor.RUBRO) {
 					raiz = raiz.getPai();
 					balanceia = true;
 				}
@@ -186,7 +186,7 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			/**
 			 * RSD
 			 */
-			if (filho.getEsquerda().getCor() == Cor.VERMELHO) {
+			if (filho.getEsquerda().getCor() == Cor.RUBRO) {
 				rotacao = RSD(raiz);
 			}
 			/**
@@ -200,7 +200,7 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			/**
 			 * RSE
 			 */
-			if (filho.getDireita().getCor() == Cor.VERMELHO) {
+			if (filho.getDireita().getCor() == Cor.RUBRO) {
 				rotacao = RSE(raiz);
 
 			}
@@ -212,11 +212,11 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			}
 		}
 
-		rotacao.setCor(Cor.PRETO);
+		rotacao.setCor(Cor.NEGRO);
 		if (!rotacao.getEsquerda().equals(pivo))
-			rotacao.getEsquerda().setCor(Cor.VERMELHO);
+			rotacao.getEsquerda().setCor(Cor.RUBRO);
 		if (!rotacao.getDireita().equals(pivo))
-			rotacao.getDireita().setCor(Cor.VERMELHO);
+			rotacao.getDireita().setCor(Cor.RUBRO);
 		rotacao.setPai(pai);
 		raiz.setPai(rotacao);
 		return rotacao;
@@ -232,35 +232,46 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 			return direita;
 	}
 
+//	public boolean remove(long elemento) {
+//
+//		try {
+//			raiz = remove(raiz, elemento);
+//			return true;
+//		} catch (NotFoundElementException ex) {
+//			System.out.println(ex.getMessage());
+//			return false;
+//		}
+//	}
+
 	public boolean remove(long elemento) {
-
-		try {
-			raiz = remove(raiz, elemento);
-			return true;
-		} catch (NotFoundElementException ex) {
-			System.out.println(ex.getMessage());
-			return false;
-		}
-	}
-
-	protected Node<T> remove(Node<T> raiz, long elemento) {
-		Node<T> aux = raiz;
+		
+		Node<T> aux = this.raiz;
 
 		do {
 			/**
 			 * Caso o Node não esteja na árvore
 			 */
 			if (aux.equals(null) || aux.equals(pivo))
-				throw new NotFoundElementException();
+				return false;
 			/**
 			 * Qunado encontra o Node que deve ser removido
 			 */
 			else if (aux.getElemento() == elemento) {
 //				System.out.println("Achei o elemento! : " + raiz.getElemento());
 				Node<T> remove = verificaTipoRemocao(aux);
-//				definePai(aux, remove);
-				return remove;
-			} 
+				if (this.raiz == aux) {
+					this.raiz = remove;
+					aux.setPai(null);
+					definePai(aux, remove);
+				} else {
+					Node<T> pai = aux.getPai();
+					definePai(aux, remove);
+
+				}
+				if(remove !=(null))
+					balanceiaRemove(aux, remove);
+				return true;
+			}
 			/**
 			 * Caso o elemento do Node seja menor do que o elemento
 			 */
@@ -277,20 +288,98 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 	private void balanceiaRemove(Node<T> removido, Node<T> sucessor) {
 		Cor rCor = removido.getCor();
 		Cor sCor = sucessor.getCor();
-		Cor preto = Cor.PRETO;
-		Cor vermelho = Cor.VERMELHO;
+		Cor negro = Cor.NEGRO;
+		Cor rubro = Cor.RUBRO;
 		/**
 		 * Caso 1 - Removido = Rubro, Sucessor = Rubro; Faz nada
 		 */
-		if (rCor.equals(vermelho) && sCor.equals(vermelho)) {
+		if (rCor.equals(rubro) && sCor.equals(rubro)) {
 		}
 		/**
 		 * Caso 2 - Removido = Preto, Sucessor = Vermelho; Pinte o Sucessor para Preto
 		 */
-		else if (rCor.equals(preto) && sCor.equals(vermelho)) {
-			sucessor.setCor(vermelho);
-		} else {
+		else if (rCor.equals(negro) && sCor.equals(rubro)) {
+			sucessor.setCor(negro);
 		}
+		/**
+		 * Caso 3 - Removido = Preto, Sucessor = Preto;
+		 */
+		else if (rCor.equals(negro) && sCor.equals(negro)) {
+			verificaCorIrmao(removido);
+		}
+
+	}
+
+	private boolean verificaCorIrmao(Node<T> removido) {
+		Node<T> pai = removido.getPai();
+
+		if (pai.getEsquerda().equals(removido)) {
+			if (pai.equals(null) || pai.getDireita().getCor().equals(Cor.NEGRO))
+				remocao3Caso1(removido, pai.getDireita());
+			else
+				remocao3Caso2(removido, pai.getDireita());
+		} else {
+			if (pai.getEsquerda().getCor().equals(Cor.NEGRO))
+				remocao3Caso1(removido, pai.getEsquerda());
+			else
+				remocao3Caso2(removido, pai.getEsquerda());
+		}
+
+		return false;
+
+	}
+
+	private void remocao3Caso2(Node<T> sucessor, Node<T> irmao) {
+		Node<T> pai = sucessor.getPai();
+		Cor corPai = pai.getCor();
+		Cor esqCor = sucessor.getEsquerda().getCor();
+		Cor dirCor = sucessor.getDireita().getCor();
+		Cor corIrmao = irmao.getCor();
+		Cor sCor = sucessor.getCor();
+		Cor negro = Cor.NEGRO;
+		Cor rubro = Cor.RUBRO;
+
+		/**
+		 * Caso a, se todo mundo for negro
+		 */
+		if (sCor.equals(negro) && esqCor.equals(negro) && dirCor.equals(negro) && corIrmao.equals(negro)) {
+
+			if (irmao.getDireita().getCor().equals(rubro)) {
+				Node<T> rse = RSE(pai);
+				sucessor.getPai().setCor(negro);
+				irmao.setCor(corPai);
+				irmao.getDireita().setCor(negro);
+			} else if (irmao.getEsquerda().getCor().equals(rubro)) {
+				Node<T> rse = RSE(irmao);
+				rse.setCor(negro);
+				irmao.setCor(rubro);
+			} else if (corPai.equals(negro))
+				irmao.setCor(rubro);
+			else if (corPai.equals(rubro)) {
+
+				irmao.setCor(rubro);
+				pai.setCor(negro);
+
+			}
+		}
+	}
+
+	private void remocao3Caso1(Node<T> sucessor, Node<T> irmao) {
+		Node<T> pai = sucessor.getPai();
+		Node<T> rse = RSE(pai);
+
+		if (pai.getEsquerda().equals(sucessor)) {
+			pai.setEsquerda(rse);
+		} else {
+			pai.setDireita(rse);
+		}
+		rse.setPai(pai);
+		sucessor.setPai(rse);
+		sucessor.getDireita().setPai(sucessor);
+		irmao.setCor(Cor.NEGRO);
+		rse.setCor(Cor.NEGRO);
+		pai.setCor(Cor.RUBRO);
+		this.raiz.setCor(Cor.NEGRO);
 
 	}
 

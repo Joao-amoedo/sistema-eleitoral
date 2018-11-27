@@ -21,20 +21,12 @@ public class Teste2 {
 		Candidato cand1 = new Candidato("1", Partido.PT, TipoCandidato.PRESIDENCIAVEL);
 		Candidato cand2 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
 		Candidato cand3 = new Candidato("3", Partido.PT, TipoCandidato.FEDERAL);
-		Eleitor el1 = new Eleitor(UF.MA, 1, 0, cand1, cand2, cand3);
-		Eleitor el2 = new Eleitor(UF.MA, 2, 0, cand1, cand2, cand3);
-		Eleitor el3 = new Eleitor(UF.MA, 3, 0, cand1, cand2, cand3);
+
 
 		ArvoreRubroNegra<Eleitor> ab = new ArvoreRubroNegra<Eleitor>();
-
-		ab.add(el1);
-		ab.add(el2);
-		ab.add(el3);
-		
-//		ab.emOrdem();
-		
-		ab.remove(3);
-		System.out.println();
+		for(int x = 1; x <= 6; x++)
+			ab.add(new Eleitor(UF.MA, x, 0, cand1, cand2, cand3));
+		ab.remove(4);
 		ab.emOrdem();
 		
 		
