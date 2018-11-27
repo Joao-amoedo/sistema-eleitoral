@@ -45,6 +45,7 @@ public class UrnaEletronica {
 		} while (opcao != 0);
 		System.out.println("Encerrando Eleição");
 	}
+	//teste
 
 	private static void mostrarCandidatos() {
 		List<Candidato> list = abCandidato.toList();
