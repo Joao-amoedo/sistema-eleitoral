@@ -26,10 +26,9 @@ public class ArvoreRubroNegra<T extends Elemento> extends ArvoreBalanceada<T> {
 	}
 
 	public boolean add(long elemento) {
-		Candidato cand1 = new Candidato("1", Partido.PT, TipoCandidato.PRESIDENCIAVEL);
-		Candidato cand2 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
-		Candidato cand3 = new Candidato("3", Partido.PT, TipoCandidato.FEDERAL);
-		return add(new Eleitor(UF.MA, elemento, 0, cand1, cand2, cand3));
+		Candidato cand1 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
+		Candidato cand2 = new Candidato("3", Partido.PT, TipoCandidato.FEDERAL);
+		return add(new Eleitor(UF.MA, elemento, 0, cand1, cand2));
 	}
 
 	public boolean add(Elemento elemento) {

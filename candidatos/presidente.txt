@@ -1,5 +1,8 @@
-1;codigo_do_canditado;nome_ canditado;codigo_do_partido
-2;1001;Adamastor pequeno;2
-2;2;Lula Livre;3
-2;1002;Candidato Aleatorio;2
-2;101;Carlitos;30
+1;codigo_do_canditado;nome_canditado;codigo_do_partido
+2;1232;Presidente 1;01
+2;1548;Presidente 2;03
+2;2945;Presidente 3;04
+2;3212;Presidente 4;05
+2;5412;Presidente 5;06
+2;6344;Presidente 6;07
+2;9832;Presidente 8;08

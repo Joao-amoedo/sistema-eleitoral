@@ -8,38 +8,25 @@ public class Candidato implements Elemento {
 	private TipoCandidato tipoCandidato;
 	private long codigoCandidato;
 	private static long codigoCandidatos = 0;
-	private static long codigoCandidatoFederal = 0;
 	private static long codigoCandidatoRegional = 10000;
-	private static long codigoCandidatoPresidente = 1000;
 
 	public Candidato(String nome, Partido partido, TipoCandidato tipoCandidato) {
 		this.nome = nome;
 		this.partido = partido;
 		this.tipoCandidato = tipoCandidato;
-		codigoCandidato();
+		codigoCandidato = codigoCandidatoRegional;
+		codigoCandidatoRegional++;
 		this.codigoCandidatos++;
 	}
-	
-	private void codigoCandidato() {
-		if(this.tipoCandidato == TipoCandidato.FEDERAL) {
-			this.codigoCandidato = codigoCandidatoFederal;
-			codigoCandidatoFederal++;
-		}
-		else if(this.tipoCandidato == TipoCandidato.REGIONAL) {
-			this.codigoCandidato = codigoCandidatoRegional;
-			codigoCandidatoRegional++;
-		}
-		if(this.tipoCandidato == TipoCandidato.PRESIDENCIAVEL) {
-			this.codigoCandidato = codigoCandidatoPresidente;
-			codigoCandidatoPresidente++;
-		}
-	}
+
 
 	public Candidato(String nome, Partido partido, TipoCandidato tipoCandidato, short codigoCandidato) {
 		this.nome = nome;
 		this.partido = partido;
 		this.tipoCandidato = tipoCandidato;
 		this.codigoCandidato = codigoCandidato;
+		if(tipoCandidato.equals(TipoCandidato.REGIONAL))
+			codigoCandidatoRegional++;
 		this.codigoCandidatos++;
 	}
 
