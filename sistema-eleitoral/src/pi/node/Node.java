@@ -36,7 +36,7 @@ public class Node<t extends Elemento> {
 		this.conteudo = conteudo;
 		this.direita = null;
 		this.esquerda = null;
-		this.cor = Cor.VERMELHO;
+		this.cor = Cor.RUBRO;
 	}
 
 	public Node(t conteudo, Cor cor) {
