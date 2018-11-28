@@ -17,9 +17,13 @@ public enum UF {
 	public static UF getUF(short codigo) {
 		UF[] values = UF.values();
 		for (UF uf : values) {
-			if(uf.getCodigo() == codigo)
+			if (uf.getCodigo() == codigo)
 				return uf;
 		}
 		return null;
+	}
+
+	public String toString() {
+		return this.codigo + " - " + this.name();
 	}
 }

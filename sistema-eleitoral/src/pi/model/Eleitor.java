@@ -73,7 +73,7 @@ public class Eleitor implements Elemento {
 
 	@Override
 	public String toString() {
-		return "2;" + regiao + ";" + mascaraCPF() + ";" + sequencial + ";" + codigoMunicipio + ";"
+		return "2;" + regiao.name() + ";" + mascaraCPF() + ";" + sequencial + ";" + codigoMunicipio + ";"
 				+ candidatoFederal.getElemento() + ";" + this.getCodigoPartidoFederal() + ";"
 				+ candidatoRegional.getElemento() + ";" + this.getCodigoPartidoRegional();
 	}

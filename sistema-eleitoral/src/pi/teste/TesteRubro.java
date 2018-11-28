@@ -24,13 +24,9 @@ public class TesteRubro {
 		Candidato cand1 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
 		Candidato cand2 = new Candidato("3", Partido.PT, TipoCandidato.FEDERAL);
 		
-<<<<<<< HEAD
 		int qtdBusca = 50;
 		int qtdAdd = 1000;
-=======
-		int qtdBusca = 100;
-		int qtdAdd = 1000000;
->>>>>>> branch 'arvore_rubro_nebra' of https://github.com/joao-amoedo/sistema-eleitoral
+
 		for (int x = 0; x < qtdAdd; x++) {
 			list.add(new Eleitor(UF.MA, rand.nextLong(), 0, cand1, cand2));
 		}
