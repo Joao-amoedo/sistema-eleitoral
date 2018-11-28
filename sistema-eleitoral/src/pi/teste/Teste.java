@@ -24,32 +24,8 @@ import pi.model.cpf.CPF;
 public class Teste {
 	public static void main(String[] args) {
 		ArvoreBinariaDeBusca<Candidato> abCand = DAOCandidato.lerArquivos();
-		long ini = System.currentTimeMillis();//
-		ArvoreBinariaDeBusca<Eleitor> abEleitor = DAOEleitor.lerArquivo(abCand, 1);
-		long fim = System.currentTimeMillis();
-//		System.out.println("Tempo para ler: " + ((double) fim - ini) / 1000 + " Segundos");
-		DAOEleitor.geraEleitor(abEleitor, abCand, 5);
-		
-		
-		Candidato CandRegionalVencedor = abCand
-				.toList()
-				.stream()
-				.filter(c -> c.getTipoCandidato() == TipoCandidato.REGIONAL)
-				.max((c1, c2) -> Long.compare(c1.getQtdVotos(), c2.getQtdVotos()))
-				.get();
-
-		Candidato CandFederalVencedor = abCand
-				.toList()
-				.stream()
-				.filter(c -> c.getTipoCandidato() == TipoCandidato.FEDERAL)
-				.max((c1, c2) -> Long.compare(c1.getQtdVotos(), c2.getQtdVotos()))
-				.get();
-		
-
-		System.out.println(CandRegionalVencedor);
-		System.out.println("Quantidade de votos: "+ CandRegionalVencedor.getQtdVotos());
-		System.out.println(CandFederalVencedor);
-		System.out.println("Quantidade de votos: "+ CandFederalVencedor.getQtdVotos());
+		ArvoreBinaria<Eleitor> abEl = new ArvoreBinaria<>();
+		DAOEleitor.geraEleitor(abEl, abCand, 1000000);
 		
 	}
 }

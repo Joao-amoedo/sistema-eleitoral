@@ -5,7 +5,6 @@ import pi.node.Node;
 
 public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinariaDeBusca<T>{
 	
-	public static int invocacaço = 0;
 	public ArvoreBalanceada(T elemento) {
 		super(elemento);
 	}
@@ -32,10 +31,8 @@ public abstract class ArvoreBalanceada<T extends Elemento> extends ArvoreBinaria
 	}
 	
 	protected Node<T> RDE(Node<T> raiz) {
-		invocacaço++;
 		raiz.setDireita(RSD(raiz.getDireita()));
 		Node<T> rse = RSE(raiz);
-//		System.out.println(rse.getElemento());
 		return rse;
 		
 	}

@@ -41,8 +41,10 @@ public class UrnaEletronica {
 			System.out.println("1- Adicionar novo Candidato");
 			System.out.println("2- Votar");
 			System.out.println("3- Mostrar Candidatos");
-			System.out.println("4- Buscar por eleitor");
-			System.out.println("5- Comparar Arvores");
+			System.out.println("4- Mostra Eleitores");
+			System.out.println("5- Buscar por eleitor");
+			System.out.println("6- Comparar Arvores");
+			System.out.println("7- Gerar massa de eleitores");
 			System.out.println("0- Encerrar Eleição");
 			opcao = Integer.parseInt(sc.nextLine());
 			switch (opcao) {
@@ -57,16 +59,47 @@ public class UrnaEletronica {
 				mostrarCandidatos();
 				break;
 			case 4:
-				buscarEleitor();
+				mostraEleitores();
 				break;
 			case 5:
+				buscarEleitor();
+				break;
+			case 6:
 				comparaArvores();
+				break;
+			case 7:
+				geraEleitores();
+			case 0:
+				System.out.println("Encerrando Eleição");
+				break;
+			default:
+				System.out.println("Opção inválida, tente novamente");
 				break;
 
 			}
 		} while (opcao != 0);
-		System.out.println("Encerrando Eleição");
 		mostraVencedor();
+	}
+
+	private static void mostraEleitores() {
+		abEleitor.toList().forEach(c -> {
+			System.out.println(String.format(
+					"CPF: %s\tRegiao: %s\tNome Candidato Regional: %s\tNome Candidato Federal: %s", c.getCPF(),
+					c.getRegiao().name(), c.getCandidatoRegional().getNome(), c.getCandidatoFederal().getNome()));
+		});
+
+	}
+
+	private static void geraEleitores() {
+		System.out.println("Digite a quantidade de eleitores que deseja criar");
+
+		long qtdEleitor = Long.parseLong(sc.nextLine());
+		long ini = System.currentTimeMillis();
+		DAOEleitor.geraEleitor(abEleitor, abCandidato, qtdEleitor);
+		long fim = System.currentTimeMillis();
+
+		System.out.println("Tempo que demorou para gerar os eleitores: " + ((double) fim - ini) / 1000 + " Segundos");
+		System.out.println("Quantidade de eleitores gerados: " + qtdEleitor);
 	}
 
 	private static void buscarEleitor() {
@@ -250,21 +283,37 @@ public class UrnaEletronica {
 	private static void comparaArvores() {
 		Random rand = new Random();
 		ArvoreAVL<Eleitor> abAVL = new ArvoreAVL<Eleitor>();
-		abEleitor.toList().forEach(abAVL::add);
+		if (abEleitor.toList().size() > 1)
+			abEleitor.toList().forEach(abAVL::add);
 		List<Object> listRegional = Arrays.asList(
 				(abCandidato.toList().stream().filter(c -> c.getTipoCandidato() == TipoCandidato.REGIONAL).toArray()));
 		List<Object> listFederal = Arrays.asList(
 				(abCandidato.toList().stream().filter(c -> c.getTipoCandidato() == TipoCandidato.FEDERAL).toArray()));
-//		boolean grava = false;
+		boolean grava = false;
+		System.out.println("Deseja gravar os Eleitores gerados no Banco de Dados?");
+		System.out.println("1 - Sim\n2 - Não");
+		int opcao;
+		do {
+			opcao = Integer.parseInt(sc.nextLine());
+			switch (opcao) {
+			case 1:
+				grava = true;
+				break;
+			case 2:
+				break;
+			default:
+				System.out.println("Opção inválida, tente novamente");
+				break;
+			}
+
+		} while (opcao != 1 && opcao != 2);
+
 		List<Eleitor> list = new ArrayList<Eleitor>();
-		Candidato cand1 = new Candidato("4", Partido.PT, TipoCandidato.REGIONAL);
-		Candidato cand2 = new Candidato("3", Partido.PT, TipoCandidato.FEDERAL);
 		System.out.println("Digite a quantidade de eleitores que deseja gerar");
 		long qtdAdd = Long.parseLong(sc.nextLine());
 		System.out.println("Digite a quantidade de buscas que deseja realizar.. recomendado < 100");
 		long qtdBusca = Long.parseLong(sc.nextLine());
 //		System.out.println("Deseja que os eleitores gerados sejam guardados no arquivo?\n1 - Sim\n2 - Não");
-		int opcao = 0;
 
 		for (int x = 0; x < qtdAdd; x++) {
 			Candidato candRegional = ((Candidato) listRegional.get(rand.nextInt(listRegional.size())));

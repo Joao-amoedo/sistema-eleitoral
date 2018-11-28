@@ -17,7 +17,8 @@ public class ArvoreBinariaDeBusca<T extends Elemento> extends ArvoreBinaria<T> {
 	}
 
 	public T buscaBinaria(long elemento) {
-
+		if(this.raiz == null)
+			return null;
 		return buscaBinaria(elemento, this.raiz);
 
 	}
@@ -41,6 +42,8 @@ public class ArvoreBinariaDeBusca<T extends Elemento> extends ArvoreBinaria<T> {
 	}
 
 	public T buscaProfundidade(long elemento) {
+		if(this.raiz == null)
+			return null;
 		try {
 			buscaProfundidade(elemento, this.raiz);
 			return null;
@@ -61,6 +64,8 @@ public class ArvoreBinariaDeBusca<T extends Elemento> extends ArvoreBinaria<T> {
 	}
 
 	public T buscaLargura(long elemento) {
+		if(this.raiz == null)
+			return null;
 		Stack<Node<T>> p1 = new Stack<Node<T>>();
 		Stack<Node<T>> p2 = new Stack<Node<T>>();
 		p1.push(this.raiz);
