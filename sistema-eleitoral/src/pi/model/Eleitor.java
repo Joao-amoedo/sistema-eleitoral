@@ -77,7 +77,9 @@ public class Eleitor implements Elemento {
 				+ candidatoFederal.getElemento() + ";" + this.getCodigoPartidoFederal() + ";"
 				+ candidatoRegional.getElemento() + ";" + this.getCodigoPartidoRegional();
 	}
-
+	public String getCPF() {
+		return this.mascaraCPF();
+	}
 	private String mascaraCPF() {
 		String cpfString = String.valueOf(this.cpf);
 		int contador = 0;

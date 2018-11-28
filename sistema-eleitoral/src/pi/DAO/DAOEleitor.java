@@ -65,7 +65,7 @@ public class DAOEleitor {
 	}
 
 	public static void gravarArquivoUnico(String texto) throws Exception {
-		try (FileWriter fw = new FileWriter("eleitores\\eleitor.txt", true);
+		try (FileWriter fw = new FileWriter("eleitores\\votos.txt", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw)) {
 			out.println(texto);
@@ -74,16 +74,6 @@ public class DAOEleitor {
 		}
 	}
 
-	public static void gravarArquivoMassa(List<Eleitor> list) throws Exception {
-		try (FileWriter fw = new FileWriter("eleitor.txt", true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				PrintWriter out = new PrintWriter(bw)) {
-			list.forEach(c -> out.println(c));
-
-		} catch (IOException e) {
-			// exceção
-		}
-	}
 
 	/**
 	 * Lê o arquivo de Eleitor e retorna uma árvore binária populada. O parâmetro
@@ -106,7 +96,7 @@ public class DAOEleitor {
 			abEleitor = new ArvoreBinariaDeBusca<Eleitor>();
 
 
-		try (Scanner sc = new Scanner(new File("eleitores\\eleitor.txt"))) {
+		try (Scanner sc = new Scanner(new File("eleitores\\votos.txt"))) {
 			sc.nextLine();
 			while (sc.hasNextLine()) {
 				String linha = sc.nextLine();
@@ -142,7 +132,7 @@ public class DAOEleitor {
 	public static void geraEleitor(Arvore<Eleitor> abEleitor, ArvoreBinaria<Candidato> ab, long qtdEleitor) {
 		if (!arquivosLidos)
 			lerCodigo();
-		try (FileWriter fw = new FileWriter("eleitores\\eleitor.txt", true);
+		try (FileWriter fw = new FileWriter("eleitores\\votos.txt", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw)) {
 

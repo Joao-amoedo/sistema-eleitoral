@@ -299,10 +299,10 @@ public class ArvoreBinaria<T extends Elemento> implements Arvore {
 	 * @return lista
 	 */
 	public List<T> toList() {
-		if(raiz == null) {
-			return null;
-		}
 		List<T> lista = new ArrayList<T>();
+		if(raiz == null) {
+			return lista;
+		}
 		return toList(lista, this.raiz);
 	}
 
