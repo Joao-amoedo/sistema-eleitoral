@@ -28,9 +28,11 @@ public class TesteRubro {
 		int qtdBusca = 100;
 		int qtdAdd = 1000000;
 =======
+
 		int qtdBusca = 50;
 		int qtdAdd = 1000;
->>>>>>> Terminando a urna, ainda falta
+
+>>>>>>> Urna pronta.. pelo menos para apresentar
 		for (int x = 0; x < qtdAdd; x++) {
 			list.add(new Eleitor(UF.MA, rand.nextLong(), 0, cand1, cand2));
 		}

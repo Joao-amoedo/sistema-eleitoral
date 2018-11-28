@@ -29,6 +29,8 @@ public class Teste {
 		long fim = System.currentTimeMillis();
 //		System.out.println("Tempo para ler: " + ((double) fim - ini) / 1000 + " Segundos");
 		DAOEleitor.geraEleitor(abEleitor, abCand, 5);
+		
+		
 		Candidato CandRegionalVencedor = abCand
 				.toList()
 				.stream()

@@ -19,6 +19,7 @@ import pi.main.UrnaEletronica;
 public class Teste2 {
 
 	public static void main(String[] args) {
+<<<<<<< HEAD
 
 		List<Eleitor> list = new ArrayList<Eleitor>();
 		Candidato cand1 = new Candidato("1", Partido.PT, TipoCandidato.PRESIDENCIAVEL);
@@ -33,5 +34,12 @@ public class Teste2 {
 		ab.emOrdem();
 
 
+=======
+
+		UrnaEletronica.menu();
+		
+		
+		
+>>>>>>> Urna pronta.. pelo menos para apresentar
 	}
 }

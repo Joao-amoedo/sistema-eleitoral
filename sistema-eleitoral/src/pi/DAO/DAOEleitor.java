@@ -54,7 +54,7 @@ public class DAOEleitor {
 		}
 	}
 
-	private static void lerArquivos(String nomeArquivo, List<Integer> lista) {
+	public static void lerArquivos(String nomeArquivo, List<Integer> lista) {
 		try (Scanner sc = new Scanner(new File(nomeArquivo))) {
 			while (sc.hasNextLine()) {
 				lista.add(Integer.parseInt(sc.nextLine()));
