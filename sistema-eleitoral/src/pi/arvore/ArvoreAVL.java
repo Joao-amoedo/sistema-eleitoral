@@ -1,36 +1,72 @@
 package pi.arvore;
 
+import pi.model.Elemento;
 import pi.node.Node;
 
+public class ArvoreAVL<T extends Elemento> extends ArvoreBalanceada<T> {
 
-public class ArvoreAVL extends ArvoreBalanceada{
-
-	public ArvoreAVL(int elemento) {
+	public ArvoreAVL(T elemento) {
 		super(elemento);
+
 	}
 
-	@Override
-	protected Node RSE() {
-		// TODO Auto-generated method stub
-		return null;
+	public ArvoreAVL() {
 	}
 
-	@Override
-	protected Node RSD() {
-		// TODO Auto-generated method stub
-		return null;
+	protected Node<T> add(Node<T> raiz, Node<T> novo) {
+		Node<T> add = super.add(raiz, novo);
+
+		add.setAlturaEFat();
+		verificaFat(add.getFat());
+//		return add;
+		
+		return verificaFatRetorno(add);
 	}
 
-	@Override
-	protected Node RDE() {
-		// TODO Auto-generated method stub
-		return null;
+	private Node<T> verificaFatRetorno(Node<T> add) {
+		if (verificaFat(add.getFat()))
+			return verificaBalanceamento(add);
+		else
+			return add;
 	}
 
-	@Override
-	protected Node RDD() {
-		// TODO Auto-generated method stub
-		return null;
+	public Node<T> verificaBalanceamento(Node<T> add) {
+		int fat = add.getFat();
+		Node<T> retorno;
+		if (fat < -1) {
+			if (add.getDireita().getFat() > 0)
+				retorno = RDE(add);
+			else
+				retorno = RSE(add);
+		} else {
+			if (add.getEsquerda().getFat() < 0)
+				retorno = RDD(add);
+			else{
+				retorno = RSD(add);
+			}
+		}
+		setFatFilhosRetorno(retorno);
+		return verificaFatRetorno(retorno);
 	}
 
+	private void setFatFilhosRetorno(Node<T> retorno) {
+		int filhos = retorno.getQuantidadeDeFilhos();
+		if(filhos == -1)
+			retorno.getEsquerda().setAlturaEFat();
+		else if(filhos == 1)
+			retorno.getDireita().setAlturaEFat();
+		else if(filhos == 2) {
+			retorno.getDireita().setAlturaEFat();
+			retorno.getEsquerda().setAlturaEFat();
+		}
+		retorno.setAlturaEFat();
+	}
+
+	private boolean verificaFat(int fat) {
+		if (fat > 1 || fat < -1) {
+			return true;
+		}
+		else
+			return false;
+	}
 }

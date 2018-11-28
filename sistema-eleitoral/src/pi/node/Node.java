@@ -1,20 +1,27 @@
 package pi.node;
 
+import pi.model.Candidato;
+import pi.model.Eleitor;
+import pi.model.Elemento;
+
 /**
  * Classe Node da árvore binária
  * 
  * @author João P. Amoêdo
  *
  */
-public class Node {
+@SuppressWarnings("hiding")
+public class Node<t extends Elemento> {
 
-	private Node direita;
+	public Node<t> direita;
 
-	private Node esquerda;
+	public Node<t> esquerda;
+
+	public Node<t> pai = null;
 
 	private Cor cor;
 
-	private Integer elemento;
+	private t conteudo;
 
 	private int altura;
 
@@ -25,15 +32,15 @@ public class Node {
 	 * 
 	 * @param elemento
 	 */
-	public Node(int elemento) {
-		this.elemento = elemento;
+	public Node(t conteudo) {
+		this.conteudo = conteudo;
 		this.direita = null;
 		this.esquerda = null;
-		this.cor = Cor.VERMELHO;
+		this.cor = Cor.RUBRO;
 	}
 
-	public Node(Integer elemento, Cor cor) {
-		this.elemento = elemento;
+	public Node(t conteudo, Cor cor) {
+		this.conteudo = conteudo;
 		this.direita = null;
 		this.esquerda = null;
 		this.cor = cor;
@@ -45,7 +52,7 @@ public class Node {
 	 * @return direita
 	 */
 
-	public Node getDireita() {
+	public Node<t> getDireita() {
 		return this.direita;
 	}
 
@@ -54,7 +61,7 @@ public class Node {
 	 * 
 	 * @return esquerda
 	 */
-	public Node getEsquerda() {
+	public Node<t> getEsquerda() {
 		return this.esquerda;
 	}
 
@@ -63,8 +70,9 @@ public class Node {
 	 * 
 	 * @return elemento
 	 */
-	public int getElemento() {
-		return this.elemento;
+	@SuppressWarnings("unchecked")
+	public long getElemento() {
+		return this.conteudo.getElemento();
 	}
 
 	/**
@@ -72,7 +80,7 @@ public class Node {
 	 * 
 	 * @param direita
 	 */
-	public void setDireita(Node direita) {
+	public void setDireita(Node<t> direita) {
 		this.direita = direita;
 	}
 
@@ -81,10 +89,11 @@ public class Node {
 	 */
 	public void setFat() {
 		int qtd = this.getQuantidadeDeFilhos();
+
 		if (qtd == 0) {
 			fat = 0;
 		} else if (qtd == 1) {
-			fat = direita.getAltura();
+			fat = -direita.getAltura();
 		} else if (qtd == -1) {
 			fat = esquerda.getAltura();
 		} else {
@@ -93,16 +102,25 @@ public class Node {
 	}
 
 	/**
+	 * Define a altura e o fator de balanceamento
+	 */
+	public void setAlturaEFat() {
+		this.setAltura();
+		this.setFat();
+	}
+
+	/**
 	 * Define a altura do Node
 	 */
 
 	public void setAltura() {
 		int qtd = this.getQuantidadeDeFilhos();
+
 		if (qtd == 0)
 			altura = 1;
-		if (qtd == 1)
+		else if (qtd == 1)
 			altura = direita.getAltura() + 1;
-		if (qtd == -1)
+		else if (qtd == -1)
 			altura = esquerda.getAltura() + 1;
 		else {
 			if (direita.getAltura() > esquerda.getAltura())
@@ -113,6 +131,18 @@ public class Node {
 
 	}
 
+	/**
+	 * Retorna o conteudo do Node
+	 * @return
+	 */
+	public t getConteudo() {
+		return (t) this.conteudo;
+	}
+
+	/**
+	 * Retorna a altura do Node na árvore
+	 * @return
+	 */
 	public int getAltura() {
 		return this.altura;
 	}
@@ -122,7 +152,7 @@ public class Node {
 	 * 
 	 * @param esquerda
 	 */
-	public void setEsquerda(Node esquerda) {
+	public void setEsquerda(Node<t> esquerda) {
 		this.esquerda = esquerda;
 	}
 
@@ -134,27 +164,69 @@ public class Node {
 	 * @return qtdFilhos
 	 */
 	public int getQuantidadeDeFilhos() {
-		if (direita != null && esquerda != null)
-			return 2;
-		else if (direita != null && esquerda == null)
-			return 1;
-		else if (direita == null && esquerda != null)
-			return -1;
-		else
+		if (direita == null && esquerda == null) {
 			return 0;
+		} else if (direita != null && esquerda == null) {
+			return 1;
+		} else if (direita == null && esquerda != null) {
+			return -1;
+		} else {
+			if (direita.getConteudo() == null && esquerda.getConteudo() == null)
+				return 0;
+			else if (esquerda.getConteudo() == null && direita.getConteudo() != null)
+				return 1;
+			else if (direita.getConteudo() == null && esquerda.getConteudo() != null)
+				return -1;
+			else
+				return 2;
+		}
 	}
 
+	/**
+	 * Retorna a cor do Node
+	 * @return cor
+	 */
 	public Cor getCor() {
 		return cor;
 	}
 
+	/**
+	 * Atribui uma cor ao Node
+	 * @param cor
+	 */
 	public void setCor(Cor cor) {
 		this.cor = cor;
 	}
 
 	@Override
 	public String toString() {
-		return this.elemento + "";
+		return this.conteudo + "";
+	}
+
+	/**
+	 * Atribui o Node pai ao Node raiz
+	 * @param pai
+	 */
+	public void setPai(Node<t> pai) {
+		this.pai = pai;
+
+	}
+
+	/**
+	 * Retorna o pai do Node
+	 * @return
+	 */
+	public Node<t> getPai() {
+
+		return pai;
+	}
+
+	/**
+	 * Retorna o fator de balanceamento
+	 * @return
+	 */
+	public int getFat() {
+		return this.fat;
 	}
 
 }

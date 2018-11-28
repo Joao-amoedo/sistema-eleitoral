@@ -1,0 +1,6 @@
+1;regiao;cpf;numero_sequencial_de_voto ;codigo_do_municipio; codigo_candidato_federal;codigo_do_partido_federal;codigo_do_candidato_regional;codigo_do_partido_regional
+2;MA;704.851.661-51;1;2114007;2945;4;10011;33
+2;PA;704.851.661-62;2;1506302;5412;6;10012;33
+2;MA;070.485.166-15;3;2111003;9832;8;10013;20
+2;MA;000.070.485-61;4;2114007;9832;8;10013;20
+2;MA;702.425.721-03;5;2114007;5412;6;10014;18

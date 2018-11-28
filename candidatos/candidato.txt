@@ -1,0 +1,13 @@
+1;codigo_do_canditado;nome_canditado;codigo_do_partido
+2;10000;Candidato 8;1
+2;10001;Candidato 9;6
+2;10002;Candidato 10;26
+2;10003;Candidato 11;13
+2;10004;Candidato 12;4
+2;10005;Candidato 13;18
+2;10006;Candidato 14;12
+2;10007;Candidato 15;33
+2;10008;Candidato 16;15
+2;10009;Candidato 17;28
+2;10010;Carlitos;3
+2;10011;Adamastor Pequeno;33
