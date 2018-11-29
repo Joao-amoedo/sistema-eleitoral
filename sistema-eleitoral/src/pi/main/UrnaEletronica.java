@@ -14,6 +14,7 @@ import pi.model.Eleitor;
 import pi.model.Partido;
 import pi.model.TipoCandidato;
 import pi.model.UF;
+import pi.model.cpf.CPF;
 
 public class UrnaEletronica {
 	private static ArvoreBinariaDeBusca<Eleitor> abEleitor = null;
@@ -183,7 +184,15 @@ public class UrnaEletronica {
 		System.out.println("Digite seu CPF");
 		boolean add = false;
 		do {
-			long cpf = Long.parseLong(sc.nextLine());
+			boolean cpfCorreto = false;
+			long cpf = 0;
+			do{
+				cpf = Long.parseLong(sc.nextLine());
+				if(CPF.validaCPF2(String.valueOf(cpf)))
+					cpfCorreto = true;
+				else
+					System.out.println("CPF não é valido, tente novamente");
+			}while(!cpfCorreto);
 			Eleitor busca = abEleitor.buscaBinaria(cpf);
 			if (busca == null) {
 				Eleitor eleitor = new Eleitor(uf, cpf, codigoMunicipio, candFed, candReg);
